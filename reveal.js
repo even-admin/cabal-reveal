@@ -273,14 +273,15 @@
       if (!body) return;
       const w = body.getBoundingClientRect().width;
       if (w <= 0) return;
+      const isDoc = frame.classList.contains('preview-frame--doc');
       if (isMobile) {
-        // Iframe renders at 390px. Scale to fit the phone screen width.
-        frame.style.setProperty('--mobile-scale', (w / 390).toFixed(4));
+        // Mini desktop preview — iframe renders at real desktop dimensions
+        // (1440 web / 1100 doc) and scales down so the hero composition fits.
+        const iframeW = isDoc ? 1100 : 1440;
+        frame.style.setProperty('--mobile-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--preview-scale');
       } else {
-        // Iframe renders at 1600px for web previews, 1200px for doc-shaped
-        // previews (Estrategia, Motor). Scale to fit the frame width.
-        const isDoc = frame.classList.contains('preview-frame--doc');
+        // Desktop: iframe at 1600 web / 1200 doc. Scale to frame width.
         const iframeW = isDoc ? 1200 : 1600;
         frame.style.setProperty('--preview-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--mobile-scale');
