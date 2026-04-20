@@ -41,7 +41,10 @@
       logoWord.style.visibility = 'hidden';
       void logoWord.offsetWidth;
       const wordWidth = logoWord.getBoundingClientRect().width;
-      const gap = 29;
+      // Read the actual flex gap so the optical-center shift matches the current
+      // breakpoint (mobile overrides the gap to a smaller value).
+      const gapStr = getComputedStyle(logoLockup).columnGap || getComputedStyle(logoLockup).gap || '29px';
+      const gap = parseFloat(gapStr) || 29;
       const shift = (wordWidth + gap) / 2;
       logoLockup.style.setProperty('--shift-x', shift + 'px');
       logoWord.style.visibility = '';

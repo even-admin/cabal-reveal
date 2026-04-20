@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cabal-reveal",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "/Users/racosta/cabal-reveal", "-p", "4173", "-c-1", "--cors"],
+      "port": 4173
+    }
+  ]
+}
