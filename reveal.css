@@ -1260,12 +1260,23 @@ body {
     transform: scale(var(--mobile-scale, 0.2222));
     pointer-events: none;
   }
-  /* Doc-shaped previews (Estrategia, Motor, Brandbook) — 16:10 at
-     doc width (1100×688) so the thumbnail matches the frame. */
+  /* Doc-shaped previews (Estrategia, Motor) — 16:10 at doc width
+     (1100×688) so the thumbnail matches the frame. */
   .preview-frame--doc .preview-iframe {
     width: 1100px;
     height: 688px;
     transform: scale(var(--mobile-scale, 0.29));
+  }
+  /* Deck-stage preview (Brandbook) — slide canvas is 1920×1080 (16:9),
+     so the frame is 16:9 and the iframe matches. Prevents the black
+     letterbox bars that appeared when rendered in a 16:10 frame. */
+  .preview-frame--deck {
+    aspect-ratio: 16 / 9;
+  }
+  .preview-frame--deck .preview-iframe {
+    width: 1600px;
+    height: 900px;
+    transform: scale(var(--mobile-scale, 0.2));
   }
 
   /* ── Act VII · Outro — smaller mark on phone ──────────────────── */

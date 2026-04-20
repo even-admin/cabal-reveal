@@ -274,14 +274,15 @@
       const w = body.getBoundingClientRect().width;
       if (w <= 0) return;
       const isDoc = frame.classList.contains('preview-frame--doc');
+      const isDeck = frame.classList.contains('preview-frame--deck');
       if (isMobile) {
         // Mini desktop preview — iframe renders at real desktop dimensions
-        // (1440 web / 1100 doc) and scales down so the hero composition fits.
-        const iframeW = isDoc ? 1100 : 1440;
+        // and scales down so the cover composition fits.
+        const iframeW = isDeck ? 1600 : isDoc ? 1100 : 1440;
         frame.style.setProperty('--mobile-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--preview-scale');
       } else {
-        // Desktop: iframe at 1600 web / 1200 doc. Scale to frame width.
+        // Desktop: iframe at 1600 web/deck / 1200 doc. Scale to frame width.
         const iframeW = isDoc ? 1200 : 1600;
         frame.style.setProperty('--preview-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--mobile-scale');
