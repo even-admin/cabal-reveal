@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cabal y Asociados</title>
+<!-- Import brand.css so the lockup is pixel-identical to the landing/brandbook. -->
+<link rel="stylesheet" href="brand.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    overflow: hidden;
+    transition: background 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .stage.dark { background: #0E0F0C; }
+
+  /* ─── Lockup — reuses brand.css .monogram and .wordmark classes ─── */
+  .lockup-row {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 29px;
+    position: relative;
+    z-index: 2;
+    transform: translate(var(--shift-x, 0px), -0.5vh);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* The brand .monogram takes its height + stroke from inline CSS variables.
+     We override the bar animation so they start hidden and build in. */
+  .monogram i {
+    transform-origin: bottom center;
+    transform: scaleY(0);
+  }
+
+  /* Wordmark colors — inherits from brand.css, only controls color per mode */
+  .wordmark {
+    color: #0E0F0C;
+    white-space: nowrap;
+    transition: color 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .stage.dark .wordmark { color: #FAF7F0; }
+
+  /* In brand.css .wordmark .amp is italic — we want it to keep italic but
+     NOT be claret. Override any color the brand file might add. */
+  .wordmark .amp {
+    color: inherit;
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* Each word lives inside a clipped container so letters rise cleanly. */
+  .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+  }
+  .w > span {
+    display: inline-block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+  .amp-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+  }
+  .amp-wrap > .amp {
+    display: inline-block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+
+  /* Dark-mode brighter bars (matches the dark preview in Brandbook) */
+  .stage.dark .monogram i {
+    background: linear-gradient(180deg, #C83D35 0%, #A32824 50%, #7A1715 100%);
+    box-shadow:
+      inset 1px 0 0 rgba(255,255,255,0.22),
+      inset -1px 0 0 rgba(0,0,0,0.35);
+    filter: drop-shadow(0 8px 18px rgba(229, 57, 53, 0.38));
+    transition: background 900ms, filter 900ms, box-shadow 900ms;
+  }
+  .monogram i { transition: background 900ms, filter 900ms, box-shadow 900ms; }
+
+  /* ═════════ TIMELINE ═════════
+     0.2 – 2.0s  bars build center stage (2, 3, 1, 4 with overshoot)
+     2.0 – 2.9s  lockup slides into final position
+     2.7 – 3.8s  wordmark words rise (Cabal, y, Asociados)
+     3.8 – 4.4s  hold light
+     4.4 – 5.3s  transition to dark
+     5.3s +      pause
+  */
+  .anim .monogram i:nth-child(2) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  200ms both; }
+  .anim .monogram i:nth-child(3) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  600ms both; }
+  .anim .monogram i:nth-child(1) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  950ms both; }
+  .anim .monogram i:nth-child(4) { animation: barGrow 800ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms both; }
+  @keyframes barGrow {
+    0%   { transform: scaleY(0); }
+    60%  { transform: scaleY(1.05); }
+    100% { transform: scaleY(1); }
+  }
+
+  .anim .w.w1 > span       { animation: letterRise 900ms cubic-bezier(0.16, 1, 0.3, 1) 2700ms both; }
+  .anim .amp-wrap > .amp   { animation: letterRise 800ms cubic-bezier(0.16, 1, 0.3, 1) 3000ms both; }
+  .anim .w.w2 > span       { animation: letterRise 900ms cubic-bezier(0.16, 1, 0.3, 1) 3200ms both; }
+  @keyframes letterRise {
+    0%   { transform: translateY(110%); }
+    100% { transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage anim" id="stage">
+  <!-- Structure mirrors brand.css .wordmark + .monogram, so it renders identically. -->
+  <div class="lockup-row" id="lockup">
+    <span class="monogram" style="--m-h: 78px; --m-w: 10.5px; --m-gap: 6.4px;">
+      <i></i><i></i><i></i><i></i>
+    </span>
+    <span class="wordmark" style="font-size: 82px; line-height: 0.85;">
+      <span class="w w1"><span>Cabal</span></span>
+      <span class="amp-wrap"><span class="amp">y</span></span>
+      <span class="w w2"><span>Asociados</span></span>
+    </span>
+  </div>
+</div>
+
+<script>
+  const stage  = document.getElementById('stage');
+  const lockup = document.getElementById('lockup');
+  const word   = lockup.querySelector('.wordmark');
+
+  /* Step 1 — before the animation, shift the lockup so the monogram sits at
+     stage-center. Once the wordmark reveals (t ≈ 2000ms), we slide back to 0
+     and the full composition lands centered. */
+  function positionForEntrance() {
+    // Hide wordmark for an accurate width measure (without visible flash).
+    word.style.visibility = 'hidden';
+    // Force reflow to read widths deterministically.
+    void word.offsetWidth;
+    const wordWidth = word.getBoundingClientRect().width;
+    const gap = 29;
+    const shift = (wordWidth + gap) / 2;
+    lockup.style.setProperty('--shift-x', shift + 'px');
+    word.style.visibility = '';
+  }
+
+  // Wait a tick so fonts can measure correctly.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(positionForEntrance);
+  } else {
+    positionForEntrance();
+  }
+
+  // Step 2 — slide lockup back to centered at t=2000ms.
+  setTimeout(() => { lockup.style.setProperty('--shift-x', '0px'); }, 2000);
+
+  // Step 3 — flip to dark at t=4400ms, then pause forever.
+  setTimeout(() => { stage.classList.add('dark'); }, 4400);
+</script>
+
+</body></html>

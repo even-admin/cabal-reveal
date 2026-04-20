@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cabal y Asociados — El Motor · Contenido y Posicionamiento Continuo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<link rel="stylesheet" href="brand.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --st-nav-w: 300px;
+    --st-content-max: 880px;
+    --st-gutter: 88px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15.5px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Layout ─── */
+  .layout {
+    display: grid;
+    grid-template-columns: var(--st-nav-w) 1fr;
+    min-height: 100vh;
+  }
+
+  /* ─── Mobile nav toggle (hidden on desktop) ─── */
+  .mobile-nav-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(14,15,12,0.08);
+  }
+  .mobile-nav-toggle span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+    position: relative;
+  }
+  .mobile-nav-toggle span::before,
+  .mobile-nav-toggle span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+  }
+  .mobile-nav-toggle span::before { top: -6px; }
+  .mobile-nav-toggle span::after { top: 6px; }
+
+  /* ─── Side nav ─── */
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 44px 36px 40px;
+    border-right: 1px solid var(--border-default);
+    overflow-y: auto;
+    background: var(--paper);
+  }
+  nav.side .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  nav.side .brand .monogram {
+    --m-h: 28px; --m-w: 3.2px; --m-gap: 2px;
+  }
+  nav.side .brand-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  nav.side .brand-name em { font-style: italic; }
+  nav.side .brand-sub {
+    font-family: 'Geist', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    margin-top: 4px;
+  }
+  nav.side .group-title {
+    font-family: 'Geist', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    margin: 28px 0 10px;
+    font-weight: 500;
+  }
+  nav.side .group-title:first-of-type { margin-top: 0; }
+  nav.side ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  nav.side li a {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 0 6px 12px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    border-left: 2px solid transparent;
+    margin-left: -14px;
+    transition: color var(--t-micro) var(--ease-in-out),
+                border-color var(--t-micro) var(--ease-in-out);
+  }
+  nav.side li a .n {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--claret);
+    min-width: 18px;
+  }
+  nav.side li a:hover {
+    color: var(--claret);
+    border-left-color: var(--claret);
+  }
+  nav.side li a.active {
+    color: var(--claret);
+    border-left-color: var(--claret);
+    font-weight: 500;
+  }
+  nav.side .foot {
+    margin-top: 44px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 10.5px;
+    color: var(--stone-2);
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+  nav.side .foot b {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--ink);
+    font-size: 13px;
+    letter-spacing: 0;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  /* ─── Main ─── */
+  main {
+    padding: 72px var(--st-gutter) 160px;
+    max-width: calc(var(--st-content-max) + var(--st-gutter) * 2);
+  }
+  main > section {
+    margin-bottom: 120px;
+    scroll-margin-top: 40px;
+  }
+
+  /* ─── Cover ─── */
+  .cover {
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--rule-strong);
+    margin-bottom: 88px;
+  }
+  .cover .cov-top {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 72px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+  }
+  .cover .cov-top .r { flex: 1; height: 1px; background: var(--rule-strong); }
+  .cover .kicker {
+    font-family: 'Geist', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--claret);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    margin: 0 0 32px;
+  }
+  .cover h1 em { font-style: italic; color: var(--claret); }
+  .cover .lede {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.3vw, 26px);
+    line-height: 1.35;
+    max-width: 680px;
+    color: var(--text-secondary);
+    letter-spacing: -0.005em;
+    margin: 0 0 56px;
+  }
+  .cover .meta-row {
+    display: flex;
+    gap: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .cover .meta-row > div {
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+  }
+  .cover .meta-row b {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+    font-weight: 400;
+    margin-top: 6px;
+  }
+
+  /* ─── Section header ─── */
+  .sec-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 44px;
+  }
+  .sec-head .num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--claret);
+    line-height: 1;
+  }
+  .sec-head h2 {
+    margin: 0;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4.2vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .sec-head h2 em { font-style: italic; color: var(--claret); }
+  .sec-head .desc {
+    grid-column: 2;
+    margin-top: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 640px;
+  }
+
+  /* ─── Prose ─── */
+  .prose { max-width: 680px; }
+  .prose p {
+    margin: 0 0 22px;
+    font-size: 15.5px;
+    line-height: 1.72;
+    color: var(--text-primary);
+  }
+  .prose p.lead {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-primary);
+  }
+  .prose strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .prose ul {
+    margin: 0 0 24px;
+    padding-left: 22px;
+  }
+  .prose ul li {
+    margin-bottom: 10px;
+    line-height: 1.65;
+    color: var(--text-primary);
+  }
+  .prose ul li::marker { color: var(--claret); }
+
+  /* ─── Subsection ─── */
+  h3.sub-h {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 26px;
+    margin: 48px 0 14px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  h3.sub-h + p { margin-top: 0; }
+
+  /* ─── Pull quote ─── */
+  .pull {
+    margin: 48px 0;
+    padding: 0 0 0 28px;
+    border-left: 2px solid var(--claret);
+    max-width: 640px;
+  }
+  .pull q {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    quotes: none;
+  }
+  .pull q::before, .pull q::after { content: ''; }
+  .pull .cite {
+    display: block;
+    margin-top: 16px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+  }
+
+  /* ─── Callout ─── */
+  .callout {
+    margin: 32px 0;
+    padding: 28px 32px;
+    background: var(--paper-2);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border-subtle);
+    max-width: 680px;
+  }
+  .callout .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--claret);
+    margin-bottom: 10px;
+  }
+  .callout p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-primary);
+  }
+  .callout p + p { margin-top: 12px; }
+
+  /* ─── Frente (Pillar) header ─── */
+  .frente-head {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    margin: 64px 0 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  .frente-head .num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 42px;
+    color: var(--claret);
+    line-height: 0.9;
+  }
+  .frente-head h3 {
+    margin: 0;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3.6vw, 40px);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .frente-head h3 em { font-style: italic; color: var(--claret); }
+  .frente-head .sub {
+    grid-column: 2;
+    margin-top: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--text-secondary);
+    letter-spacing: -0.005em;
+  }
+
+  /* ─── Format breakdown (Reels / Carousels / Estáticas) ─── */
+  .format {
+    max-width: 720px;
+    margin: 32px 0;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .format:last-child { border-bottom: 1px solid var(--rule); }
+  .format-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .format-head .ttl {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .format-head .ttl em { font-style: italic; color: var(--claret); }
+  .format-head .qty {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--claret);
+    padding: 4px 10px;
+    background: var(--paper-2);
+    border-radius: 4px;
+  }
+  .format p {
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.68;
+    color: var(--text-primary);
+  }
+  .format .examples {
+    margin: 0;
+    padding-left: 22px;
+    list-style: none;
+  }
+  .format .examples li {
+    position: relative;
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .format .examples li::before {
+    content: '—';
+    position: absolute;
+    left: -22px;
+    color: var(--claret);
+    font-style: normal;
+  }
+
+  /* ─── Data table ─── */
+  .data-table {
+    width: 100%;
+    max-width: 780px;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-size: 14px;
+  }
+  .data-table thead th {
+    text-align: left;
+    padding: 14px 16px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--claret);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .data-table thead th:nth-child(n+2) { text-align: center; }
+  .data-table tbody td {
+    padding: 16px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--text-primary);
+    line-height: 1.55;
+  }
+  .data-table tbody tr:last-child td { border-bottom: 1px solid var(--rule-strong); }
+  .data-table tbody td:first-child {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .data-table tbody td:nth-child(n+2) {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  /* ─── Week cycle grid ─── */
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin: 32px 0;
+    max-width: 880px;
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .week .day {
+    padding: 20px 14px;
+    border-right: 1px solid var(--rule);
+    text-align: center;
+  }
+  .week .day:last-child { border-right: none; }
+  .week .day .d {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    margin-bottom: 12px;
+  }
+  .week .day .fmt {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .week .day .fmt.reel em { font-style: italic; color: var(--claret); }
+  .week .day .obj {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+  .week .day[data-hot="1"] {
+    background: var(--paper-2);
+  }
+
+  /* ─── Forecast grid ─── */
+  .forecast {
+    margin: 32px 0;
+    max-width: 880px;
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .forecast table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .forecast thead th {
+    text-align: left;
+    padding: 18px 14px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rule);
+  }
+  .forecast thead th:first-child { color: var(--claret); }
+  .forecast thead th:not(:first-child) { text-align: center; width: 110px; }
+  .forecast tbody td {
+    padding: 14px 14px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--text-primary);
+  }
+  .forecast tbody td:first-child {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .forecast tbody td:not(:first-child) {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .forecast tbody tr:last-child td { border-bottom: none; }
+
+  /* ─── Pricing card ─── */
+  .pricing {
+    margin: 40px 0;
+    max-width: 680px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-xl);
+    padding: 0;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .pricing-head {
+    padding: 32px 36px 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .pricing-head .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--claret);
+    margin-bottom: 10px;
+  }
+  .pricing-head h3 {
+    margin: 0;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .pricing-head h3 em { font-style: italic; color: var(--claret); }
+  .pricing-lines {
+    padding: 8px 36px;
+  }
+  .pricing-lines .line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .pricing-lines .line:last-child { border-bottom: none; }
+  .pricing-lines .line .label { color: var(--text-primary); }
+  .pricing-lines .line .amt {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+  .pricing-total {
+    padding: 24px 36px 28px;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .pricing-total .label {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: -0.005em;
+  }
+  .pricing-total .amt {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px;
+    letter-spacing: -0.015em;
+    font-variant-numeric: tabular-nums;
+  }
+  .pricing-total .amt em {
+    font-style: italic;
+    color: var(--claret-light);
+  }
+  .pricing-note {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-left: 2px solid var(--claret);
+    max-width: 680px;
+  }
+  .pricing-note .k {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .pricing-note p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  /* ─── ROI callout ─── */
+  .roi {
+    margin: 32px 0;
+    max-width: 680px;
+    padding: 36px 40px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--r-xl);
+  }
+  .roi .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--claret-light);
+    margin-bottom: 14px;
+  }
+  .roi .big {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 3.4vw, 38px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin-bottom: 18px;
+  }
+  .roi .big em { font-style: italic; color: var(--claret-light); }
+  .roi p {
+    margin: 0 0 12px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text-secondary-dark);
+  }
+  .roi p:last-child { margin-bottom: 0; }
+
+  /* ─── Closing ─── */
+  .closing {
+    margin-top: 128px;
+    padding-top: 56px;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .closing .end-mark {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--claret);
+    margin-bottom: 20px;
+  }
+  .closing .colofon {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    line-height: 2;
+  }
+
+  /* ═══════════════ RESPONSIVE / MOBILE ═══════════════ */
+  @media (max-width: 900px) {
+    :root {
+      --st-gutter: 24px;
+    }
+    body { font-size: 16px; }
+
+    .layout { grid-template-columns: 1fr; }
+
+    /* Mobile nav: drawer */
+    .mobile-nav-toggle { display: flex; }
+    nav.side {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      max-width: 85vw;
+      height: 100vh;
+      z-index: 90;
+      transform: translateX(-100%);
+      transition: transform 300ms var(--ease-out);
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      padding: 28px 28px 40px;
+    }
+    nav.side.open {
+      transform: translateX(0);
+      box-shadow: 12px 0 48px rgba(14,15,12,0.18);
+    }
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(14,15,12,0.32);
+      z-index: 85;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms var(--ease-out);
+    }
+    .nav-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    main {
+      padding: 32px 24px 100px;
+    }
+    main > section { margin-bottom: 80px; }
+
+    /* Cover */
+    .cover { padding-bottom: 48px; margin-bottom: 56px; }
+    .cover .cov-top { margin-bottom: 40px; font-size: 10px; gap: 12px; }
+    .cover .lede { font-size: 20px; margin-bottom: 36px; }
+    .cover .meta-row {
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 24px;
+    }
+
+    /* Section head: stack */
+    .sec-head {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    .sec-head .num {
+      grid-column: 1;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .sec-head h2 { font-size: 34px; }
+    .sec-head .desc {
+      grid-column: 1;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    /* Frente head: stack */
+    .frente-head {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin: 48px 0 20px;
+    }
+    .frente-head .num { font-size: 32px; margin-bottom: 4px; }
+    .frente-head h3 { font-size: 28px; }
+    .frente-head .sub {
+      grid-column: 1;
+      font-size: 17px;
+      margin-top: 10px;
+    }
+
+    /* Prose */
+    .prose p { font-size: 16px; line-height: 1.7; }
+    .prose p.lead { font-size: 17px; }
+
+    /* Sub-h */
+    h3.sub-h { font-size: 22px; margin: 36px 0 12px; }
+
+    /* Pull */
+    .pull { padding-left: 20px; margin: 36px 0; }
+    .pull q { font-size: 22px; }
+
+    /* Callout */
+    .callout { padding: 22px 24px; }
+    .callout p { font-size: 15px; }
+
+    /* Format */
+    .format { padding: 24px 0; }
+    .format-head .ttl { font-size: 22px; }
+    .format p { font-size: 15px; }
+    .format .examples li { font-size: 16px; }
+
+    /* Tables: horizontal scroll */
+    .data-table,
+    .forecast {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding: 0 24px;
+    }
+    .data-table thead th,
+    .forecast thead th { font-size: 9.5px; }
+    .data-table tbody td,
+    .forecast tbody td { font-size: 13px; padding: 12px 10px; }
+    .data-table tbody td:first-child,
+    .forecast tbody td:first-child { font-size: 15px; }
+
+    /* Week: 2 cols */
+    .week {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+    .week .day {
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      text-align: left;
+      padding: 16px 14px;
+    }
+    .week .day:nth-child(2n) { border-right: none; }
+    .week .day:nth-last-child(-n+2):nth-child(odd):last-child { border-bottom: none; }
+    .week .day:last-child { border-bottom: none; }
+    .week .day:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+
+    /* Pricing */
+    .pricing-head { padding: 24px 24px 20px; }
+    .pricing-head h3 { font-size: 26px; }
+    .pricing-lines { padding: 4px 24px; }
+    .pricing-lines .line { padding: 14px 0; font-size: 14.5px; }
+    .pricing-total { padding: 20px 24px 22px; }
+    .pricing-total .label { font-size: 18px; }
+    .pricing-total .amt { font-size: 28px; }
+
+    /* ROI */
+    .roi { padding: 28px 24px; }
+    .roi .big { font-size: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .cover h1 { font-size: 42px; }
+    .cover .lede { font-size: 18px; }
+    .sec-head h2 { font-size: 28px; }
+    .frente-head h3 { font-size: 24px; }
+    .week { grid-template-columns: 1fr; }
+    .week .day {
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+    }
+    .week .day:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile nav toggle -->
+<button class="mobile-nav-toggle" id="nav-toggle" aria-label="Abrir navegación">
+  <span></span>
+</button>
+<div class="nav-backdrop" id="nav-backdrop"></div>
+
+<div class="layout">
+
+<!-- ══════════ SIDE NAV ══════════ -->
+<nav class="side" id="side-nav">
+  <a class="brand" href="#top">
+    <div class="monogram"><i></i><i></i><i></i><i></i></div>
+    <div>
+      <div class="brand-name">Cabal <em>y</em> Asociados</div>
+      <div class="brand-sub">El Motor · v1.0</div>
+    </div>
+  </a>
+
+  <div class="group-title">Documento</div>
+  <ul>
+    <li><a href="#premisa"><span class="n">I</span>Campaña vs. motor</a></li>
+    <li><a href="#frentes"><span class="n">II</span>Los tres frentes</a></li>
+  </ul>
+
+  <div class="group-title">Los tres frentes</div>
+  <ul>
+    <li><a href="#frente-1"><span class="n">1</span>Redes sociales</a></li>
+    <li><a href="#frente-2"><span class="n">2</span>Blog, SEO y GEO</a></li>
+    <li><a href="#frente-3"><span class="n">3</span>Maps y analytics</a></li>
+  </ul>
+
+  <div class="group-title">Cifras</div>
+  <ul>
+    <li><a href="#entregables"><span class="n">III</span>Entregables</a></li>
+    <li><a href="#acumulativo"><span class="n">IV</span>Rendimiento acumulativo</a></li>
+    <li><a href="#roi"><span class="n">V</span>Benchmark</a></li>
+    <li><a href="#inversion"><span class="n">VI</span>La inversión</a></li>
+    <li><a href="#consistencia"><span class="n">VII</span>Por qué gana</a></li>
+  </ul>
+
+  <div class="foot">
+    <b>EVEN Venture Studio</b>
+    Abril 2026 · Confidencial<br>
+    Preparado exclusivamente para<br>
+    CABAL y Asociados.
+  </div>
+</nav>
+
+<!-- ══════════ MAIN ══════════ -->
+<main id="top">
+
+  <!-- ─── COVER ─── -->
+  <section class="cover">
+    <div class="cov-top">
+      <span>§ El Motor</span>
+      <span class="r"></span>
+      <span>Retainer de crecimiento</span>
+    </div>
+    <div class="kicker">Contenido y posicionamiento continuo · Abril 2026</div>
+    <h1>El <em>motor</em> de<br>crecimiento.</h1>
+    <div class="lede">
+      Las empresas que dominan su mercado digital no hacen campañas — operan un motor.
+      Un sistema de trabajo continuo que mantiene a CABAL posicionado, visible y activo.
+    </div>
+    <div class="meta-row">
+      <div>Preparado por<b>EVEN Venture Studio</b></div>
+      <div>Cliente<b>Cabal y Asociados</b></div>
+      <div>Edición<b>01 · v1.0</b></div>
+    </div>
+  </section>
+
+  <!-- ─── I. PREMISA ─── -->
+  <section id="premisa">
+    <div class="sec-head">
+      <div class="num">I</div>
+      <h2>Campaña o <em>motor.</em></h2>
+      <div class="desc">La diferencia entre un despacho que aparece a ratos y uno que domina su mercado digital durante años.</div>
+    </div>
+
+    <div class="prose">
+      <p class="lead">
+        Un sitio web, un perfil de Google Maps y una buena marca son el punto de partida.
+        Lo que convierte ese punto de partida en un flujo constante de clientes es la
+        <strong>consistencia</strong>. El SEO crece mes a mes. Las redes sociales construyen audiencia
+        de manera acumulativa. El contenido publicado hoy sigue generando consultas dentro de un año.
+      </p>
+
+      <div class="pull">
+        <q>Las empresas que dominan su mercado digital no hacen campañas — operan un motor.</q>
+        <span class="cite">— Principio operativo</span>
+      </div>
+
+      <p>
+        El Motor es exactamente eso: un sistema de trabajo continuo que mantiene a CABAL
+        posicionado, visible y activo en todos los canales donde el trabajador de Tabasco
+        busca ayuda.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── II. LOS TRES FRENTES ─── -->
+  <section id="frentes">
+    <div class="sec-head">
+      <div class="num">II</div>
+      <h2>Los tres <em>frentes</em> del Motor.</h2>
+      <div class="desc">
+        Cada frente cubre un canal donde el trabajador construye la confianza que lo lleva
+        al WhatsApp del despacho. Operan en paralelo — no uno después del otro.
+      </div>
+    </div>
+
+    <!-- ══ FRENTE 1 ══ -->
+    <div class="frente-head" id="frente-1">
+      <div class="num">1</div>
+      <h3>Redes <em>sociales.</em></h3>
+      <div class="sub">El trabajador vive en su teléfono — ahí se construye la memoria de marca.</div>
+    </div>
+
+    <div class="prose">
+      <p>
+        Facebook, Instagram y TikTok son donde el trabajador encuentra contenido antes de
+        buscar en Google. El objetivo del contenido en redes no es informar — es generar el
+        <strong>reconocimiento y la confianza</strong> que hacen que, cuando el trabajador tenga un
+        problema, piense en CABAL primero.
+      </p>
+      <p>
+        Cada pieza se publica de manera simultánea en Instagram, Facebook y TikTok. Esto
+        significa que <strong>23 piezas de contenido generan más de 55 publicaciones reales al mes</strong>
+        en todas las plataformas — maximizando el alcance sin incrementar el costo de producción.
+      </p>
+    </div>
+
+    <!-- Reels -->
+    <div class="format">
+      <div class="format-head">
+        <span class="ttl">Reels <em>UGC</em></span>
+        <span class="qty">9 por mes</span>
+      </div>
+      <p>
+        El formato de mayor alcance en Meta y TikTok. Se producen en tono natural y directo
+        — como si fuera el propio Lic. Cabal respondiendo una pregunta real, o un trabajador
+        hablando de su situación. Este tono <strong>genera más confianza que cualquier producción
+        corporativa</strong> porque no parece un anuncio. Cada Reel termina con un llamado a acción
+        directo hacia el despacho.
+      </p>
+      <ul class="examples">
+        <li>¿Te despidieron y te hicieron firmar una renuncia? Esto es lo que la ley dice.</li>
+        <li>3 cosas que tu patrón no quiere que sepas sobre tu liquidación.</li>
+        <li>Cuánto tiempo tienes para demandar — y por qué muchos lo pierden.</li>
+      </ul>
+    </div>
+
+    <!-- Carousels -->
+    <div class="format">
+      <div class="format-head">
+        <span class="ttl"><em>Carousels</em> informativos</span>
+        <span class="qty">6 por mes</span>
+      </div>
+      <p>
+        El formato de mayor guardado y compartido en Instagram y Facebook. Cada carousel es
+        una mini-guía visual sobre un derecho laboral específico. El trabajador lo guarda
+        <em>"por si acaso"</em> — y cuando lo necesita, ya tiene el nombre de CABAL guardado en su teléfono.
+      </p>
+      <ul class="examples">
+        <li>Cómo calcular tu liquidación en 3 pasos.</li>
+        <li>5 señales de que te están forzando a renunciar.</li>
+        <li>Qué documentos necesitas para demandar a tu patrón.</li>
+      </ul>
+    </div>
+
+    <!-- Estáticas -->
+    <div class="format">
+      <div class="format-head">
+        <span class="ttl"><em>Estáticas</em></span>
+        <span class="qty">8 por mes</span>
+      </div>
+      <p>
+        Publicaciones de imagen fija diseñadas para generar comentarios, compartidas y
+        conversación. Preguntas directas a la audiencia, datos sobre derechos laborales,
+        frases con impacto. Este tipo de contenido <strong>activa el algoritmo de manera diferente
+        a los videos</strong> — y llega a seguidores que no siempre consumen Reels.
+      </p>
+    </div>
+
+    <h3 class="sub-h">Ciclo semanal de <em>publicación</em></h3>
+    <div class="prose">
+      <p>
+        El calendario sigue un ciclo de 7 días diseñado para mantener presencia diaria y
+        alternar formatos — lo que maximiza el alcance orgánico porque los algoritmos de
+        Meta y TikTok <strong>premian la variedad de formatos</strong> en una misma cuenta.
+      </p>
+    </div>
+
+    <div class="week">
+      <div class="day" data-hot="1">
+        <div class="d">Lun</div>
+        <div class="fmt"><em>Reel</em></div>
+        <div class="obj">Arranque con alcance y descubrimiento.</div>
+      </div>
+      <div class="day">
+        <div class="d">Mar</div>
+        <div class="fmt">Carousel</div>
+        <div class="obj">Contenido educativo de alto valor y guardado.</div>
+      </div>
+      <div class="day" data-hot="1">
+        <div class="d">Mié</div>
+        <div class="fmt"><em>Reel</em></div>
+        <div class="obj">Momentum a mitad de semana.</div>
+      </div>
+      <div class="day">
+        <div class="d">Jue</div>
+        <div class="fmt">Carousel</div>
+        <div class="obj">Retención para el fin de semana.</div>
+      </div>
+      <div class="day" data-hot="1">
+        <div class="d">Vie</div>
+        <div class="fmt"><em>Reel</em></div>
+        <div class="obj">Cierre de semana — alto engagement.</div>
+      </div>
+      <div class="day">
+        <div class="d">Sáb</div>
+        <div class="fmt">Estática</div>
+        <div class="obj">Scrollers del fin de semana.</div>
+      </div>
+      <div class="day">
+        <div class="d">Dom</div>
+        <div class="fmt">Estática</div>
+        <div class="obj">Cierre suave — comentarios y conversación.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>
+        En semanas con menor volumen de producción se mantienen los días de mayor rendimiento
+        (lunes, miércoles, viernes y fin de semana) y se ajusta la mezcla de formatos.
+      </p>
+    </div>
+
+    <!-- ══ FRENTE 2 ══ -->
+    <div class="frente-head" id="frente-2">
+      <div class="num">2</div>
+      <h3>Blog, SEO y GEO <em>continuo.</em></h3>
+      <div class="sub">8 artículos por mes — el activo más duradero del despacho.</div>
+    </div>
+
+    <div class="prose">
+      <p>
+        Cada artículo responde una pregunta específica que los trabajadores de Tabasco ya
+        están buscando en Google. No son artículos genéricos — cada uno está diseñado para
+        posicionarse en una búsqueda concreta: <em>"puedo demandar si firmé renuncia Tabasco"</em>,
+        <em>"cuánto me corresponde de liquidación si llevo 5 años"</em>, <em>"acoso laboral qué
+        dice la ley mexicana."</em>
+      </p>
+      <p>
+        Con el tiempo, estos artículos se convierten en el <strong>activo digital más valioso</strong>
+        del despacho: canales permanentes de tráfico y consultas que no requieren inversión
+        publicitaria. Un artículo bien posicionado en Google puede generar consultas durante años.
+      </p>
+    </div>
+
+    <h3 class="sub-h">Por qué el blog también posiciona a CABAL en <em>inteligencia artificial</em></h3>
+    <div class="prose">
+      <p>
+        Cuando alguien le pregunta a ChatGPT <em>"¿qué debo hacer si me despidieron sin
+        liquidación en México?"</em> — o cualquier consulta laboral — el sistema de inteligencia
+        artificial analiza todo el contenido disponible en internet y genera una respuesta
+        con recomendaciones. El despacho con el contenido más completo, más confiable y
+        mejor documentado es el que <strong>aparece citado</strong> en esas respuestas.
+      </p>
+    </div>
+
+    <div class="callout">
+      <div class="tag">El volumen es la autoridad</div>
+      <p>
+        Un blog con 50, 100, 200 artículos respaldados por un abogado con 30 años de trayectoria,
+        cédula profesional y perfil académico verificable es exactamente lo que estos sistemas
+        buscan. El volumen y la calidad del blog construyen la autoridad que hace que la
+        inteligencia artificial <strong>empiece a mencionar a CABAL por nombre</strong> cuando alguien
+        pregunta por ayuda laboral en Tabasco.
+      </p>
+    </div>
+
+    <h3 class="sub-h">Posicionamiento <em>continuo</em> en Google</h3>
+    <div class="prose">
+      <p>
+        Google no es estático. Las posiciones en el mapa y en los resultados de búsqueda
+        se mueven según la actividad de los competidores y los cambios en el algoritmo.
+        El mantenimiento continuo asegura que lo que se gana en los primeros meses
+        <strong>no se pierda</strong> — y que siga creciendo.
+      </p>
+    </div>
+
+    <!-- ══ FRENTE 3 ══ -->
+    <div class="frente-head" id="frente-3">
+      <div class="num">3</div>
+      <h3>Google Maps y <em>analytics.</em></h3>
+      <div class="sub">Actividad continua en el perfil. Reporte mensual con los indicadores que importan.</div>
+    </div>
+
+    <h3 class="sub-h">Google Maps — <em>actividad continua</em></h3>
+    <div class="prose">
+      <p>
+        El perfil de Google Maps requiere actividad constante para mantenerse en los primeros
+        lugares: publicaciones semanales, respuesta a todas las reseñas recibidas, actualización
+        de fotos y contenido, y un sistema activo para generar nuevas reseñas de clientes
+        satisfechos cada mes.
+      </p>
+    </div>
+
+    <h3 class="sub-h">Monitoreo y <em>reporte mensual</em></h3>
+    <div class="prose">
+      <p>
+        Cada mes EVEN entrega un reporte ejecutivo con los indicadores que importan: posición
+        en Google Maps, visitas al sitio, artículos posicionados y contactos generados. Con
+        esos datos se toman las decisiones de ajuste para el mes siguiente.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── III. ENTREGABLES ─── -->
+  <section id="entregables">
+    <div class="sec-head">
+      <div class="num">III</div>
+      <h2>Entregables <em>mensuales.</em></h2>
+      <div class="desc">
+        23 piezas de contenido originales generan 55+ publicaciones reales al mes gracias al
+        cross-posting simultáneo en Instagram, Facebook y TikTok.
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Cantidad</th>
+          <th>Publicaciones reales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Reels UGC (IG · FB · TikTok)</td>
+          <td>9</td>
+          <td>27</td>
+        </tr>
+        <tr>
+          <td>Carousels (IG · FB)</td>
+          <td>6</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td>Estáticas (IG · FB)</td>
+          <td>8</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>Artículos de blog SEO/GEO</td>
+          <td>8</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>Publicaciones en Google Maps</td>
+          <td>4</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>Gestión de reseñas GMB</td>
+          <td>Continuo</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Mantenimiento del sitio web</td>
+          <td>Continuo</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Reporte mensual de resultados</td>
+          <td>1</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td><strong>23 piezas</strong></td>
+          <td><strong>55+</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ─── IV. RENDIMIENTO ACUMULATIVO ─── -->
+  <section id="acumulativo">
+    <div class="sec-head">
+      <div class="num">IV</div>
+      <h2>El rendimiento <em>acumulativo.</em></h2>
+      <div class="desc">
+        A diferencia de la publicidad pagada — que deja de funcionar en el momento en que se
+        deja de pagar — el contenido y el SEO se acumulan. Cada artículo suma a la autoridad.
+        Cada Reel construye reconocimiento. Cada reseña fortalece el perfil.
+      </div>
+    </div>
+
+    <div class="forecast">
+      <table>
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Mes 3</th>
+            <th>Mes 6</th>
+            <th>Mes 12</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Artículos publicados</td>
+            <td>24</td>
+            <td>50+</td>
+            <td>100+</td>
+          </tr>
+          <tr>
+            <td>Reels y carousels</td>
+            <td>45</td>
+            <td>90+</td>
+            <td>180+</td>
+          </tr>
+          <tr>
+            <td>Posición en Google Maps</td>
+            <td>Top 10</td>
+            <td>Top 5</td>
+            <td>Top 3</td>
+          </tr>
+          <tr>
+            <td>Keywords posicionadas</td>
+            <td>20+</td>
+            <td>60+</td>
+            <td>150+</td>
+          </tr>
+          <tr>
+            <td>Visitas orgánicas / mes</td>
+            <td>400–700</td>
+            <td>1,200+</td>
+            <td>3,000+</td>
+          </tr>
+          <tr>
+            <td>Contactos nuevos / mes</td>
+            <td>20–40</td>
+            <td>80–150</td>
+            <td>250+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull">
+      <q>El crecimiento no es lineal — es acumulativo. El contenido publicado en el mes 1 sigue generando visitas en el mes 12.</q>
+      <span class="cite">— La economía del canal orgánico</span>
+    </div>
+  </section>
+
+  <!-- ─── V. BENCHMARK ─── -->
+  <section id="roi">
+    <div class="sec-head">
+      <div class="num">V</div>
+      <h2>El <em>benchmark</em> del Motor.</h2>
+      <div class="desc">
+        La pregunta no es si el digital funciona para servicios legales — funciona.
+        La pregunta es si CABAL va a ser el despacho que construya esa presencia antes que la competencia.
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>
+        El Motor está diseñado para generar entre <strong>5 y 15 consultas calificadas por mes</strong>
+        en el tercer mes de operación, y entre <strong>20 y 50 en el sexto mes</strong>.
+      </p>
+      <p>
+        Son consultas con intención real — personas buscando activamente resolver un asunto laboral
+        en Tabasco — que llegan al despacho a través de Google Maps, búsquedas orgánicas y menciones
+        en sistemas de inteligencia artificial.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── VI. LA INVERSIÓN ─── -->
+  <section id="inversion">
+    <div class="sec-head">
+      <div class="num">VI</div>
+      <h2>La <em>inversión.</em></h2>
+      <div class="desc">
+        Retainer mensual del Motor de crecimiento.
+      </div>
+    </div>
+
+    <div class="pricing">
+      <div class="pricing-head">
+        <div class="tag">Retainer mensual</div>
+        <h3>El <em>Motor</em> de crecimiento.</h3>
+      </div>
+      <div class="pricing-lines">
+        <div class="line">
+          <span class="label">Retainer de crecimiento</span>
+          <span class="amt">$20,000.00</span>
+        </div>
+        <div class="line">
+          <span class="label">IVA (16%)</span>
+          <span class="amt">$3,200.00</span>
+        </div>
+      </div>
+      <div class="pricing-total">
+        <span class="label">Total mensual</span>
+        <span class="amt">$23,200 <em>MXN</em></span>
+      </div>
+    </div>
+
+    <div class="pricing-note">
+      <span class="k">Compromiso mínimo recomendado: 6 meses.</span>
+      <p>
+        El SEO y el contenido necesitan tiempo para madurar — los resultados más sólidos se
+        consolidan entre el mes 3 y el mes 6. Un compromiso de 6 meses asegura que la inversión
+        llegue al punto donde se vuelve autosustentable y el canal digital genera más de lo que cuesta.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── VII. CONSISTENCIA ─── -->
+  <section id="consistencia">
+    <div class="sec-head">
+      <div class="num">VII</div>
+      <h2>Por qué la consistencia <em>gana.</em></h2>
+      <div class="desc">Los algoritmos premian a quienes aparecen todos los días. Castigan a quienes desaparecen.</div>
+    </div>
+
+    <div class="prose">
+      <p>
+        Google penaliza los sitios que publican en ráfagas y desaparecen. Los algoritmos de
+        Instagram y TikTok suprimen las cuentas que no publican con regularidad. Las reseñas
+        en Google Maps crecen cuando hay un sistema activo para generarlas — no cuando se
+        recuerda hacerlo de vez en cuando.
+      </p>
+
+      <div class="pull">
+        <q>La diferencia entre el despacho que domina el mercado digital dentro de 12 meses y el que no lo logra no es el presupuesto — es la consistencia.</q>
+        <span class="cite">— La tesis del Motor</span>
+      </div>
+
+      <p>El Motor garantiza esa consistencia.</p>
+    </div>
+
+    <!-- Closing -->
+    <div class="closing">
+      <div class="end-mark">§</div>
+      <div class="colofon">
+        EVEN Venture Studio · Abril 2026<br>
+        Confidencial — preparado exclusivamente para CABAL y Asociados.
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+  // Active section highlighting
+  const sections = [...document.querySelectorAll('main > section[id], .frente-head[id]')];
+  const links = [...document.querySelectorAll('nav.side a[href^="#"]')];
+  const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        links.forEach(l => l.classList.remove('active'));
+        if (byId[id]) byId[id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+  sections.forEach(s => io.observe(s));
+
+  // Smooth scroll + mobile nav close on click
+  const sideNav = document.getElementById('side-nav');
+  const backdrop = document.getElementById('nav-backdrop');
+  const toggle = document.getElementById('nav-toggle');
+
+  function closeNav() {
+    sideNav.classList.remove('open');
+    backdrop.classList.remove('show');
+  }
+  function openNav() {
+    sideNav.classList.add('open');
+    backdrop.classList.add('show');
+  }
+
+  toggle.addEventListener('click', () => {
+    if (sideNav.classList.contains('open')) closeNav(); else openNav();
+  });
+  backdrop.addEventListener('click', closeNav);
+
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeNav();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

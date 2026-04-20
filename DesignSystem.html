@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cabal y Asociados — Sistema de Diseño</title>
+<meta name="viewport" content="width=1024, initial-scale=0.35, maximum-scale=3.0, user-scalable=yes">
+<link rel="stylesheet" href="brand.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ds-nav-w: 280px;
+    --ds-content-max: 1040px;
+    --ds-gutter: 72px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Layout ─── */
+  .layout {
+    display: grid;
+    grid-template-columns: var(--ds-nav-w) 1fr;
+    min-height: 100vh;
+  }
+
+  /* ─── Side nav ─── */
+  nav.side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 44px 36px 40px;
+    border-right: 1px solid var(--border-default);
+    overflow-y: auto;
+    background: var(--paper);
+  }
+  nav.side .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  nav.side .brand .monogram {
+    --m-h: 28px; --m-w: 3.2px; --m-gap: 2px;
+  }
+  nav.side .brand-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  nav.side .brand-name em {
+    font-style: italic;
+  }
+  nav.side .brand-sub {
+    font-family: 'Geist', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    margin-top: 4px;
+  }
+  nav.side .group-title {
+    font-family: 'Geist', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    margin: 28px 0 10px;
+    font-weight: 500;
+  }
+  nav.side .group-title:first-of-type { margin-top: 0; }
+  nav.side ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  nav.side li a {
+    display: block;
+    padding: 5px 0 5px 12px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 400;
+    border-left: 2px solid transparent;
+    margin-left: -14px;
+    transition: color var(--t-micro) var(--ease-in-out),
+                border-color var(--t-micro) var(--ease-in-out);
+  }
+  nav.side li a:hover {
+    color: var(--claret);
+    border-left-color: var(--claret);
+  }
+  nav.side li a.active {
+    color: var(--claret);
+    border-left-color: var(--claret);
+    font-weight: 500;
+  }
+  nav.side .foot {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 11px;
+    color: var(--stone-2);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── Main ─── */
+  main {
+    padding: 64px var(--ds-gutter) 140px;
+    max-width: calc(var(--ds-content-max) + var(--ds-gutter) * 2);
+  }
+  main > section {
+    margin-bottom: 112px;
+    scroll-margin-top: 40px;
+  }
+
+  /* ─── Doc header ─── */
+  .doc-hero {
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--rule-strong);
+    margin-bottom: 56px;
+  }
+  .doc-hero .kicker {
+    font-family: 'Geist', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--claret);
+    margin-bottom: 14px;
+  }
+  .doc-hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  .doc-hero h1 em { font-style: italic; color: var(--claret); }
+  .doc-hero .lede {
+    font-size: 19px;
+    line-height: 1.55;
+    max-width: 720px;
+    color: #2a2a25;
+  }
+  .doc-hero .meta {
+    display: flex;
+    gap: 48px;
+    margin-top: 44px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+  }
+  .doc-hero .meta b {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 18px;
+    margin-top: 4px;
+  }
+
+  /* ─── Section header ─── */
+  .sec-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+  .sec-head .num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--claret);
+  }
+  .sec-head h2 {
+    margin: 0;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .sec-head h2 em { font-style: italic; color: var(--claret); }
+  .sec-head .desc {
+    grid-column: 2;
+    margin-top: 12px;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: #3a3a33;
+    max-width: 680px;
+  }
+
+  /* ─── Subsection ─── */
+  h3.sub-h {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 24px;
+    margin: 48px 0 8px;
+    letter-spacing: -0.005em;
+  }
+  .sub-desc {
+    font-size: 14px;
+    color: #4a4a42;
+    margin: 0 0 20px;
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  /* ─── Code + preview split (Law 1: squircle radii, Law 6: border-only) ─── */
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 32px;
+    background: var(--paper);
+  }
+  .pair.stack { grid-template-columns: 1fr; }
+  .pair .preview {
+    padding: 44px 36px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 120px;
+  }
+  .pair .preview.dark {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .pair .preview.wide { padding: 0; display: block; }
+  .pair .preview .pv-label {
+    position: absolute;
+    top: 12px; left: 14px;
+    font-family: 'Geist', sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+  }
+  .pair .preview.dark .pv-label { color: rgba(243,239,230,0.5); }
+  .pair .code {
+    background: #0E0F0C;
+    color: #E8E4D8;
+    padding: 0;
+    border-left: 1px solid var(--rule);
+    overflow: hidden;
+    position: relative;
+  }
+  .pair.stack .code { border-left: none; border-top: 1px solid var(--rule); }
+
+  .code-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px 10px 18px;
+    border-bottom: 1px solid rgba(243,239,230,0.08);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: rgba(243,239,230,0.45);
+    letter-spacing: 0.04em;
+  }
+  .code-head .lang {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  .code-copy {
+    background: transparent;
+    border: 1px solid rgba(243,239,230,0.2);
+    color: rgba(243,239,230,0.7);
+    font-family: inherit;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 120ms, color 120ms, border-color 120ms;
+  }
+  .code-copy:hover {
+    background: rgba(243,239,230,0.08);
+    color: var(--paper);
+    border-color: rgba(243,239,230,0.35);
+  }
+  .code-copy.copied {
+    background: var(--claret);
+    border-color: var(--claret);
+    color: var(--paper);
+  }
+  pre.code-body {
+    margin: 0;
+    padding: 18px 22px 22px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+    overflow-x: auto;
+    tab-size: 2;
+    white-space: pre;
+  }
+  pre.code-body::-webkit-scrollbar { height: 6px; }
+  pre.code-body::-webkit-scrollbar-thumb {
+    background: rgba(243,239,230,0.15);
+    border-radius: 3px;
+  }
+  /* token colors */
+  .tk-tag { color: #e57373; }
+  .tk-attr { color: #d4a373; }
+  .tk-str { color: #a3c9a8; }
+  .tk-fn { color: #e8b86b; }
+  .tk-kw { color: #d07373; }
+  .tk-comment { color: rgba(232,228,216,0.4); font-style: italic; }
+  .tk-var { color: #c9c1b0; }
+  .tk-punc { color: rgba(232,228,216,0.7); }
+
+  /* ─── Token grids ─── */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .color-swatch {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .color-swatch .chip {
+    height: 92px;
+    position: relative;
+  }
+  .color-swatch .chip.bordered {
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .color-swatch .info {
+    padding: 12px 14px 14px;
+    background: var(--paper);
+  }
+  .color-swatch .info .name {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .color-swatch .info .hex {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--stone-2);
+    letter-spacing: 0.04em;
+  }
+  .color-swatch .info .var {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--ink);
+    margin-top: 4px;
+    letter-spacing: 0;
+  }
+
+  /* ─── Type scale ─── */
+  .type-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 140px;
+    gap: 28px;
+    align-items: baseline;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .type-row:last-of-type { border-bottom: 1px solid var(--rule); }
+  .type-row .tr-label {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--stone-2);
+    letter-spacing: 0.04em;
+  }
+  .type-row .tr-label b {
+    display: block;
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .type-row .tr-sample {
+    overflow: hidden;
+  }
+  .type-row .tr-meta {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--stone-2);
+    text-align: right;
+    letter-spacing: 0.02em;
+  }
+
+  /* ─── Spacing scale ─── */
+  .space-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px;
+    gap: 20px;
+    align-items: center;
+    padding: 12px 0;
+    border-top: 1px solid var(--rule);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px;
+  }
+  .space-row:last-of-type { border-bottom: 1px solid var(--rule); }
+  .space-row .sp-label { color: var(--ink); font-weight: 500; }
+  .space-row .sp-bar { background: var(--claret); height: 10px; }
+  .space-row .sp-px { color: var(--stone-2); text-align: right; }
+
+  /* ─── Inline code in prose ─── */
+  code.inline {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 0.88em;
+    background: var(--paper);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--claret);
+    border: 1px solid var(--rule);
+  }
+
+  /* ─── Tables ─── */
+  table.tokens {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+    font-size: 13px;
+  }
+  table.tokens th, table.tokens td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.tokens th {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--stone-2);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  table.tokens code {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--claret);
+  }
+
+  /* ─── Callout (Law 8: minimal; Law 1: radius) ─── */
+  .callout {
+    border: 1px solid var(--border-default);
+    border-left: 3px solid var(--claret);
+    padding: 20px 24px;
+    background: var(--paper);
+    margin: 24px 0;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+  }
+  .callout b {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .callout p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
+
+  /* ─── Footer ─── */
+  .doc-foot {
+    margin-top: 120px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule-strong);
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    font-size: 12.5px;
+    color: var(--stone-2);
+  }
+  .doc-foot h5 {
+    font-family: 'Geist', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+  .doc-foot a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+  .doc-foot a:hover { border-bottom-color: var(--claret); }
+
+  /* ─── Mobile menu button (hidden on desktop) ─── */
+  .ds-menu-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--border-strong);
+    background: var(--paper);
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(14, 15, 12, 0.08);
+  }
+  .ds-menu-btn span {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out);
+  }
+  .ds-menu-btn span::before,
+  .ds-menu-btn span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 16px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 200ms var(--ease-out);
+  }
+  .ds-menu-btn span::before { top: -5px; }
+  .ds-menu-btn span::after  { top:  5px; }
+  body.ds-nav-open .ds-menu-btn span { background: transparent; }
+  body.ds-nav-open .ds-menu-btn span::before { transform: translateY(5px) rotate(45deg); }
+  body.ds-nav-open .ds-menu-btn span::after  { transform: translateY(-5px) rotate(-45deg); }
+  .ds-scrim {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 15, 12, 0.4);
+    z-index: 89;
+    opacity: 0;
+    transition: opacity 250ms var(--ease-out);
+  }
+  body.ds-nav-open .ds-scrim { opacity: 1; pointer-events: auto; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE — tablet and below. Side nav becomes a drawer; content
+     goes full-width; dense grids reflow.
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    :root { --ds-gutter: 24px; }
+    body { font-size: 16px; line-height: 1.7; }
+    .layout { grid-template-columns: 1fr; }
+
+    /* Menu button + drawer nav */
+    .ds-menu-btn { display: inline-flex; }
+    .ds-scrim { display: block; }
+    nav.side {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(320px, 86vw);
+      height: 100vh;
+      z-index: 90;
+      transform: translateX(-100%);
+      transition: transform 300ms var(--ease-out);
+      box-shadow: 12px 0 48px rgba(14, 15, 12, 0.18);
+      padding: 32px 28px 40px;
+      border-right: 1px solid var(--border-default);
+    }
+    body.ds-nav-open nav.side { transform: translateX(0); }
+
+    /* Main content padding — matches Estrategia/Motor */
+    main { padding: 72px 24px 100px; }
+    main > section { margin-bottom: 80px; }
+
+    /* Hero */
+    .doc-hero { padding-bottom: 48px; margin-bottom: 56px; }
+    .doc-hero h1 { font-size: 44px; line-height: 1.02; }
+    .doc-hero .lede { font-size: 20px; margin-bottom: 36px; }
+    .doc-hero .meta {
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+    }
+
+    /* Section headers: stack number above title */
+    .sec-head {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    .sec-head .num { font-size: 22px; margin-bottom: 4px; }
+    .sec-head h2 { font-size: 32px; line-height: 1.15; }
+    .sec-head .desc { grid-column: 1; margin-top: 12px; font-size: 15px; }
+
+    /* Preview + code pairs: stack vertically, code becomes scrollable */
+    .pair { grid-template-columns: 1fr; border-radius: var(--r-md); }
+    .pair .preview { padding: 32px 24px; min-height: 240px; }
+    .pair .code { padding: 0; border-left: none; border-top: 1px solid var(--rule); }
+    .pair .code pre {
+      padding: 20px 20px;
+      font-size: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: pre;
+      word-wrap: normal;
+    }
+
+    /* Token grids: 2 cols on phone (was 4) */
+    .token-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    /* Type rows: stack metadata above sample */
+    .type-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding: 20px 0;
+    }
+    .type-row .meta,
+    .type-row .specs {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+    }
+
+    /* Spacing scale rows: keep key | bar | value but tighter */
+    .space-row {
+      grid-template-columns: 56px 1fr 72px;
+      gap: 10px;
+    }
+
+    /* Tables: horizontal scroll so they never crush */
+    table.tokens {
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding: 0 24px;
+      width: auto;
+    }
+    table.tokens thead th { font-size: 9.5px; }
+    table.tokens tbody td { font-size: 13px; padding: 12px 10px; }
+    table.tokens code { font-size: 11.5px; }
+
+    /* Callouts breathe */
+    .callout { padding: 20px 22px; margin: 20px 0; }
+    .callout b { font-size: 17px; }
+    .callout p { font-size: 14.5px; }
+
+    /* Footer stacks */
+    .doc-foot {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-top: 80px;
+      padding-top: 32px;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SMALL PHONE — under 480px. Tighter type, single-column tokens.
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    :root { --ds-gutter: 18px; }
+    main { padding: 64px 20px 88px; }
+    .doc-hero h1 { font-size: 36px; }
+    .doc-hero .lede { font-size: 18px; }
+    .doc-hero .meta { gap: 20px; font-size: 10.5px; }
+    .sec-head h2 { font-size: 26px; }
+    .token-grid { grid-template-columns: 1fr; }
+    .space-row { grid-template-columns: 48px 1fr 64px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Mobile-only: menu button + backdrop scrim. Hidden ≥ 1025px. -->
+<button class="ds-menu-btn" id="dsMenuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="dsSideNav">
+  <span></span>
+</button>
+<div class="ds-scrim" id="dsScrim" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <!-- ══════════════════════ SIDE NAV ══════════════════════ -->
+  <nav class="side" id="dsSideNav">
+    <a class="brand" href="#top">
+      <div class="monogram">
+        <i></i><i></i><i></i><i></i>
+      </div>
+      <div>
+        <div class="brand-name">Cabal <em>y</em> Asociados</div>
+        <div class="brand-sub">Design System · v1.0</div>
+      </div>
+    </a>
+
+    <div class="group-title">Leyes</div>
+    <ul>
+      <li><a href="#laws">Las 10 leyes</a></li>
+    </ul>
+
+    <div class="group-title">Fundamentos</div>
+    <ul>
+      <li><a href="#install">Instalación</a></li>
+      <li><a href="#tailwind">Config · Tailwind v4</a></li>
+      <li><a href="#colors">Colores</a></li>
+      <li><a href="#type">Tipografía</a></li>
+      <li><a href="#voice">Voz y copy</a></li>
+      <li><a href="#spacing">Espaciado</a></li>
+      <li><a href="#radii">Radios y elevación</a></li>
+      <li><a href="#layout">Layout · grid</a></li>
+      <li><a href="#motion">Movimiento</a></li>
+      <li><a href="#logo">Logo</a></li>
+    </ul>
+
+    <div class="group-title">Primitivos</div>
+    <ul>
+      <li><a href="#button">Button</a></li>
+      <li><a href="#input">Input · Textarea · Select</a></li>
+      <li><a href="#link">Link</a></li>
+      <li><a href="#icon">Iconografía</a></li>
+      <li><a href="#card">Card</a></li>
+      <li><a href="#badge">Badge</a></li>
+    </ul>
+
+    <div class="group-title">Sistema</div>
+    <ul>
+      <li><a href="#states">Estados · matriz</a></li>
+      <li><a href="#a11y">Accesibilidad</a></li>
+    </ul>
+
+    <div class="group-title">Patrones</div>
+    <ul>
+      <li><a href="#hero">Hero</a></li>
+      <li><a href="#trust">TrustBar</a></li>
+      <li><a href="#counter">Counter · stats</a></li>
+      <li><a href="#service">ServiceCard</a></li>
+      <li><a href="#bio">AttorneyBio</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">ContactForm</a></li>
+      <li><a href="#footer-pat">Footer</a></li>
+      <li><a href="#wa">WhatsAppButton</a></li>
+    </ul>
+
+    <div class="foot">
+      EVEN Venture Studio<br>
+      Abril 2026
+    </div>
+  </nav>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main id="top">
+
+    <!-- Doc hero -->
+    <div class="doc-hero">
+      <div class="kicker">Sistema de diseño · v1.0</div>
+      <h1>Construir <em>con oficio.</em></h1>
+      <p class="lede">
+        Guía de implementación para el sitio de Cabal y Asociados. Diez leyes que gobiernan cada decisión, tokens derivados del manual de marca, primitivos y patrones listos para producción en React + Next.js con Tailwind v4.
+      </p>
+      <div class="meta">
+        <div>Stack <b>React 19 · Next 15 · TW v4</b></div>
+        <div>Tipografía <b>Instrument Serif · Geist</b></div>
+        <div>Versión <b>1.0 · abril 2026</b></div>
+      </div>
+    </div>
+
+    <!-- Placeholder for content — will fill in next -->
+    <div id="content-root">
+      <p style="color: var(--stone-2); font-style: italic;">Cargando contenido…</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-foot">
+      <div>
+        <h5>Cabal y Asociados · Sistema de diseño</h5>
+        <p style="margin: 0; line-height: 1.6;">
+          Mantenido junto al <a href="Brandbook.html">manual de marca</a>.
+          Los tokens de este sistema derivan de <code class="inline">brand.css</code>; cualquier cambio debe actualizar ambos documentos.
+        </p>
+      </div>
+      <div>
+        <h5>Enlaces</h5>
+        <div><a href="Brandbook.html">Manual de marca</a></div>
+        <div><a href="#install">Instalación</a></div>
+        <div><a href="#tailwind">Config Tailwind</a></div>
+      </div>
+      <div>
+        <h5>Autoría</h5>
+        <div>EVEN Venture Studio</div>
+        <div>contacto@luisracosta.com</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Content is injected from separate files to keep things manageable -->
+<script src="design-system-content.js"></script>
+<script src="ds-laws.js"></script>
+<script src="ds-fundamentals.js"></script>
+<script src="ds-primitives.js"></script>
+<script src="ds-patterns-1.js"></script>
+<script src="ds-patterns-2.js"></script>
+<script src="ds-extra.js"></script>
+
+<script>
+  // Active-link scroll spy
+  const links = document.querySelectorAll('nav.side a[href^="#"]');
+  const sections = [...links]
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  function updateActive() {
+    let current = sections[0];
+    const y = window.scrollY + 80;
+    for (const s of sections) {
+      if (s.offsetTop <= y) current = s;
+    }
+    links.forEach(a => a.classList.remove('active'));
+    const active = document.querySelector(`nav.side a[href="#${current?.id}"]`);
+    if (active) active.classList.add('active');
+  }
+  window.addEventListener('scroll', updateActive, { passive: true });
+  window.addEventListener('load', updateActive);
+
+  // ─── Mobile nav drawer ────────────────────────────────────────────
+  const menuBtn = document.getElementById('dsMenuBtn');
+  const scrim   = document.getElementById('dsScrim');
+  const body    = document.body;
+  function setNavOpen(open) {
+    body.classList.toggle('ds-nav-open', open);
+    menuBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  menuBtn?.addEventListener('click', () => setNavOpen(!body.classList.contains('ds-nav-open')));
+  scrim?.addEventListener('click', () => setNavOpen(false));
+  // Close drawer whenever the user taps any nav link
+  document.querySelectorAll('nav.side a').forEach(a => {
+    a.addEventListener('click', () => setNavOpen(false));
+  });
+  // Close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setNavOpen(false);
+  });
+
+  // Copy-to-clipboard
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.code-copy');
+    if (!btn) return;
+    const code = btn.closest('.code').querySelector('pre.code-body');
+    const text = code.dataset.raw || code.innerText;
+    navigator.clipboard?.writeText(text);
+    btn.classList.add('copied');
+    const orig = btn.textContent;
+    btn.textContent = 'Copiado';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.textContent = orig;
+    }, 1400);
+  });
+</script>
+
+</body>
+</html>

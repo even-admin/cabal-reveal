@@ -1,0 +1,1096 @@
+/* ═══════════════════════════════════════════════════════════════════
+   REVEAL · Cabal y Asociados
+   A cinematic single-page reveal. Scroll-snap narrative.
+   ═══════════════════════════════════════════════════════════════════ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+html, body { height: 100%; }
+
+body {
+  background: #FFFFFF;
+  color: #0E0F0C;
+  font-family: 'Geist', -apple-system, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   MAIN scroller — scroll-snap, one act per viewport.
+   ───────────────────────────────────────────────────────────────── */
+.reveal {
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hide scrollbar in a clean way, keep scrolling */
+  scrollbar-width: none;
+}
+.reveal::-webkit-scrollbar { display: none; }
+
+.act {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACT I — Identity. Starts DARK, ends LIGHT.
+   ───────────────────────────────────────────────────────────────── */
+.act-i {
+  background: #0E0F0C;
+  transition: background 900ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.act-i.is-light {
+  background: #FFFFFF;
+}
+
+.act-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lockup — mirrors brand.css structure exactly.
+   Uses baseline alignment so the monogram's bottom lands on the wordmark's
+   baseline (the bottom of C, a, b, l — not the descender of y). flex-end
+   would align to the em-box bottom, which sits below the baseline by the
+   descender depth and looks disproportionate. */
+.lockup-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 29px;
+  position: relative;
+  z-index: 2;
+  /* Offset for entrance — set via JS to center monogram initially, reset to 0 at t=2000ms */
+  transform: translate(var(--shift-x, 0px), -0.5vh);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Bars — start at their dark-mode (over-dark) styling: brighter gradient + glow */
+.act-i .monogram i {
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  background: linear-gradient(180deg, #C83D35 0%, #A32824 50%, #7A1715 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255,255,255,0.22),
+    inset -1px 0 0 rgba(0,0,0,0.35);
+  transition: background 900ms, filter 900ms, box-shadow 900ms;
+}
+.act-i .monogram {
+  filter: drop-shadow(0 8px 18px rgba(229, 57, 53, 0.38));
+  transition: filter 900ms;
+}
+
+.act-i .wordmark {
+  color: #FAF7F0;
+  white-space: nowrap;
+  transition: color 900ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.act-i.is-light .wordmark { color: #0E0F0C; }
+
+/* When background flips to light, bars revert to the paper-on-light gradient */
+.act-i.is-light .monogram i {
+  background: linear-gradient(180deg, #B8332E 0%, #8E1F1C 32%, #6B1715 62%, #3E0C0B 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255,255,255,0.15),
+    inset -1px 0 0 rgba(0,0,0,0.24);
+}
+.act-i.is-light .monogram {
+  filter:
+    drop-shadow(0 5px 8px rgba(90, 15, 15, 0.35))
+    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+}
+
+/* Amp italic, inherits color (no claret — we want wordmark unified) */
+.act-i .wordmark .amp {
+  color: inherit;
+  font-style: italic;
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Clip-and-rise letter reveals. The `.amp-wrap` also holds the italic "y"
+   whose descender extends below the baseline — so we extend the clip region
+   downward (padding-bottom) and pull the box back up (margin-bottom) so
+   the descender renders without affecting layout. */
+.act-i .w,
+.act-i .amp-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+}
+.act-i .amp-wrap {
+  padding-bottom: 0.3em;
+  margin-bottom: -0.3em;
+}
+.act-i .w > span,
+.act-i .amp-wrap > .amp {
+  display: inline-block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+/* Dark-mode: brighter monogram bars — no longer needed as a separate state
+   since we START in dark; kept as a legacy hook if we ever re-invert. */
+.act-i.is-dark .monogram i {
+  background: linear-gradient(180deg, #C83D35 0%, #A32824 50%, #7A1715 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255,255,255,0.22),
+    inset -1px 0 0 rgba(0,0,0,0.35);
+  filter: drop-shadow(0 8px 18px rgba(229, 57, 53, 0.38));
+}
+
+/* Animation timeline (triggered by .act-i.anim) */
+.act-i.anim .monogram i:nth-child(2) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  200ms both; }
+.act-i.anim .monogram i:nth-child(3) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  600ms both; }
+.act-i.anim .monogram i:nth-child(1) { animation: barGrow 850ms cubic-bezier(0.16, 1, 0.3, 1)  950ms both; }
+.act-i.anim .monogram i:nth-child(4) { animation: barGrow 800ms cubic-bezier(0.16, 1, 0.3, 1) 1250ms both; }
+@keyframes barGrow {
+  0%   { transform: scaleY(0); }
+  60%  { transform: scaleY(1.05); }
+  100% { transform: scaleY(1); }
+}
+
+.act-i.anim .w.w1 > span      { animation: letterRise 900ms cubic-bezier(0.16, 1, 0.3, 1) 2700ms both; }
+.act-i.anim .amp-wrap > .amp  { animation: letterRise 800ms cubic-bezier(0.16, 1, 0.3, 1) 3000ms both; }
+.act-i.anim .w.w2 > span      { animation: letterRise 900ms cubic-bezier(0.16, 1, 0.3, 1) 3200ms both; }
+@keyframes letterRise {
+  0%   { transform: translateY(110%); }
+  100% { transform: translateY(0); }
+}
+
+/* Scroll cue — appears after animation, at bottom center. Starts in dark mode (white ink). */
+.scroll-cue {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  color: #FAF7F0;
+  animation: cueFadeIn 700ms cubic-bezier(0.16, 1, 0.3, 1) 5800ms both;
+  pointer-events: none;
+  z-index: 10;
+  transition: color 900ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.act-i.is-light .scroll-cue { color: #0E0F0C; }
+.cue-label {
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.5;
+}
+.cue-line {
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: currentColor;
+  opacity: 0.3;
+  transform-origin: top center;
+  animation: cueLine 2.2s cubic-bezier(0.65, 0, 0.35, 1) 5800ms infinite;
+}
+@keyframes cueFadeIn {
+  0%   { opacity: 0; transform: translate(-50%, 8px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes cueLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  40%  { transform: scaleY(1); transform-origin: top; }
+  60%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PROGRESS RAIL — right-side dots, desktop only
+   ───────────────────────────────────────────────────────────────── */
+.rail {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.rail.is-visible { opacity: 1; }
+.rail-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(14, 15, 12, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.rail-dot::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+}
+.rail-dot.is-current {
+  background: #B8332E;
+  border-color: #B8332E;
+  transform: scale(1.1);
+}
+.rail-dot:hover { border-color: rgba(14, 15, 12, 0.7); }
+.rail-dot.is-current:hover { border-color: #B8332E; }
+
+/* On DARK background (Act I pre-flip) */
+.rail.on-dark .rail-dot { border-color: rgba(250, 247, 230, 0.35); }
+.rail.on-dark .rail-dot:hover { border-color: rgba(250, 247, 230, 0.8); }
+.rail.on-dark .rail-dot.is-current { background: #B8332E; border-color: #B8332E; }
+
+@media (max-width: 720px) {
+  .rail { display: none; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   HEADER — chapter label, hidden until act 1
+   ───────────────────────────────────────────────────────────────── */
+.reveal-head {
+  position: fixed;
+  top: 28px;
+  left: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-head.is-visible { opacity: 1; }
+.head-chapter {
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(14, 15, 12, 0.65);
+}
+.reveal-head.on-dark .head-chapter { color: rgba(250, 247, 230, 0.72); }
+
+@media (max-width: 720px) {
+  .reveal-head { top: 20px; left: 20px; }
+  .head-chapter { font-size: 9px; letter-spacing: 0.18em; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACTS II–IV — shared shell
+   ───────────────────────────────────────────────────────────────── */
+.act-ii, .act-iii, .act-iv, .act-v, .act-vi {
+  background: #FFFFFF;
+  color: #0E0F0C;
+  padding: 80px 40px;
+}
+.act-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-height: calc(100vh - 160px);
+}
+
+/* Eyebrow — section label with §, rule, and name */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(14, 15, 12, 0.55);
+  margin-bottom: 80px;
+}
+.eyebrow-num { color: #B8332E; }
+.eyebrow-rule {
+  flex: 0 0 80px;
+  height: 1px;
+  background: rgba(14, 15, 12, 0.2);
+}
+
+@media (max-width: 720px) {
+  .act-ii, .act-iii, .act-iv, .act-v, .act-vi { padding: 60px 24px; }
+  .eyebrow { font-size: 10px; letter-spacing: 0.2em; margin-bottom: 48px; gap: 14px; }
+  .eyebrow-rule { flex-basis: 40px; }
+
+  /* Act I — shrink the logo lockup so it actually fits phone width */
+  .act-i .wordmark { font-size: 40px !important; }
+  .act-i .monogram { --m-h: 52px !important; --m-w: 9px !important; --m-gap: 6px !important; }
+  .act-i .lockup { gap: 20px; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACT II — Pure kinetic typography.
+   White stage, no chrome. Four words rise from below, one at a time,
+   each held for ~1.2s in large Instrument Serif with the period in
+   claret. After the 4th, a quiet caption fades in. No monogram here —
+   Act I owns the mark; Act II is pure idea.
+   ───────────────────────────────────────────────────────────────── */
+.act-ii {
+  padding: 0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.kinetic-stage {
+  width: 100%;
+  max-width: 1400px;
+  padding: 80px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+/* Top-left eyebrow — quiet, anchored to the stage frame */
+.kinetic-eyebrow {
+  position: absolute;
+  top: 40px;
+  left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(14, 15, 12, 0.5);
+}
+.kinetic-eyebrow .eyebrow-num { color: #B8332E; }
+.kinetic-eyebrow .eyebrow-rule {
+  flex: 0 0 40px;
+  height: 1px;
+  background: rgba(14, 15, 12, 0.2);
+}
+
+/* Top-right counter */
+.k-counter {
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(14, 15, 12, 0.5);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.k-counter-num {
+  color: #B8332E;
+  font-variant-numeric: tabular-nums;
+}
+.k-counter-div { opacity: 0.35; }
+.k-counter-total { opacity: 0.55; }
+
+/* Words — absolutely stacked, one visible at a time */
+.k-words {
+  position: relative;
+  width: 100%;
+  height: clamp(200px, 26vw, 320px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.k-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(40%);
+  transition:
+    opacity 600ms cubic-bezier(0.65, 0, 0.35, 1),
+    transform 800ms cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: opacity, transform;
+}
+.k-word.is-current {
+  opacity: 1;
+  transform: translateY(0);
+}
+.k-word.is-past {
+  opacity: 0;
+  transform: translateY(-40%);
+}
+
+.k-word-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(100px, 14vw, 240px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;  /* was -0.02em — negative tracking let f+i collide in "Oficio" */
+  color: #B8332E;  /* claret — this IS the idea */
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'dlig' 0, 'clig' 0, 'rlig' 0;
+  text-align: center;
+}
+/* The period is the whole word's exclamation — keep it in claret */
+.k-word-text em {
+  font-style: normal;
+  color: inherit;
+}
+
+/* Instrument Serif's "f" flag overhangs into the next glyph — in "Oficio"
+   the f's terminal collides with the i's tittle. Ligatures are off and tracking
+   is 0 but the native glyph metrics still touch at 240px. Nudge the f with a
+   right margin to force a hair gap. */
+.k-word-text .kern-fi {
+  margin-right: 0.06em;
+}
+
+/* Caption — fades in after the sequence completes, stays during hold */
+.k-caption {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(20px, 1.6vw, 28px);
+  color: rgba(14, 15, 12, 0.55);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 200ms;
+}
+.kinetic-stage.is-final .k-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 720px) {
+  .kinetic-stage { padding: 60px 24px; gap: 24px; }
+  .kinetic-eyebrow { top: 28px; left: 24px; font-size: 10px; letter-spacing: 0.2em; }
+  .kinetic-eyebrow .eyebrow-rule { flex-basis: 28px; }
+  .k-counter { top: 28px; right: 24px; font-size: 10px; }
+  .k-words { height: 140px; }
+  .k-word-text { font-size: clamp(52px, 18vw, 80px); letter-spacing: -0.02em; }
+  .k-caption { font-size: 14px; padding: 0 12px; }
+}
+/* ─────────────────────────────────────────────────────────────────
+   REVEAL-ON-ENTER — letter-rise / fade for eyebrow, thesis lines, etc.
+   ───────────────────────────────────────────────────────────────── */
+.reveal-on-enter {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-on-enter.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* For thesis lines specifically, translate from further down for more drama */
+.thesis-line.reveal-on-enter { transform: translateY(120%); }
+.thesis-line.reveal-on-enter.is-in { transform: translateY(0); }
+
+/* ─────────────────────────────────────────────────────────────────
+   PLACEHOLDER — for acts being built
+   ───────────────────────────────────────────────────────────────── */
+.placeholder {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(32px, 4vw, 56px);
+  color: rgba(14, 15, 12, 0.35);
+  padding: 80px 0;
+  border: 1px dashed rgba(14, 15, 12, 0.15);
+  text-align: center;
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   VERTICAL SCROLL PROGRESS — right edge, claret fill grows top→bottom
+   Adapted from landing-v1.css .scroll-progress (horizontal, under nav).
+   Here it's rotated 90° in intent: 2px-wide column on the right edge,
+   full viewport height, with a claret inner <span> whose height animates
+   0→100% as the user scrolls through the acts.
+   ───────────────────────────────────────────────────────────────── */
+.scroll-progress-v {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 2px;
+  background: transparent;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-progress-v.is-visible { opacity: 1; }
+.scroll-progress-v span {
+  display: block;
+  width: 100%;
+  height: 0;
+  background: #B8332E;
+  transform-origin: top;
+  transition: height 80ms linear;
+}
+/* On dark bg (Act I pre-flip), keep the rail subtle */
+.scroll-progress-v.on-dark { opacity: 0.8; }
+
+/* ─────────────────────────────────────────────────────────────────
+   SCROLL HINT — inline variant lifted from landing-v1.css
+   A 24px claret segment travels down a vertical gradient stroke.
+   Uses scroll-hint + scroll-hint-inline class pair for style layering.
+   ───────────────────────────────────────────────────────────────── */
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: rgba(14, 15, 12, 0.55);
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-hint-inline {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: 8px;
+  opacity: 0;
+}
+.scroll-hint-inline.is-visible { opacity: 1; }
+.scroll-hint:hover { color: #0E0F0C; }
+.scroll-hint-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(14, 15, 12, 0.35), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-hint-inline .scroll-hint-line {
+  background: linear-gradient(to top, rgba(14, 15, 12, 0.35), transparent);
+}
+.scroll-hint-line::before {
+  content: '';
+  position: absolute;
+  top: -24px;
+  left: 0;
+  width: 1px;
+  height: 24px;
+  background: #B8332E;
+  animation: scrollDot 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes scrollDot {
+  0%   { transform: translateY(0);    opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(72px); opacity: 0; }
+}
+/* Dark-bg variant (Act I before the light flip) */
+.act-i:not(.is-light) .scroll-hint {
+  color: rgba(250, 247, 230, 0.55);
+}
+.act-i:not(.is-light) .scroll-hint:hover { color: #FAF7E6; }
+.act-i:not(.is-light) .scroll-hint-inline .scroll-hint-line {
+  background: linear-gradient(to top, rgba(250, 247, 230, 0.35), transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACT III & IV — PREVIEW FRAMES
+   Split layout: meta column (left) + browser-framed iframe (right).
+   Iframe is rendered at 2x scale inside a smaller frame via CSS transform,
+   so the full-size design peeks through as a readable thumbnail. The
+   overlay <a> makes the entire frame click-to-open (the iframe itself
+   swallows events, so we layer an anchor on top).
+   ───────────────────────────────────────────────────────────────── */
+.act-iii .act-inner,
+.act-iv .act-inner,
+.act-v .act-inner,
+.act-vi .act-inner {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 88px;
+  align-items: center;
+  max-width: 1440px;
+  width: 100%;
+  padding: 0 80px;
+}
+
+/* ── Meta column ── */
+.preview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 420px;
+}
+.preview-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(14, 15, 12, 0.5);
+}
+.preview-kicker .kicker-num { color: #B8332E; }
+.preview-kicker .kicker-rule {
+  flex: 0 0 40px;
+  height: 1px;
+  background: rgba(14, 15, 12, 0.2);
+}
+.preview-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(48px, 5.4vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: #0E0F0C;
+  margin: 0;
+}
+.preview-title em {
+  font-style: italic;
+  color: #B8332E;
+}
+.preview-lede {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.5;
+  color: rgba(14, 15, 12, 0.6);
+  margin: 0;
+  max-width: 34ch;
+}
+.preview-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  align-self: flex-start;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #0E0F0C;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(14, 15, 12, 0.25);
+  text-decoration: none;
+  transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              gap 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.preview-cta:hover {
+  color: #B8332E;
+  border-color: #B8332E;
+  gap: 22px;
+}
+.preview-cta .cta-arrow {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.preview-cta:hover .cta-arrow { transform: translateX(4px); }
+
+/* ── Browser-framed iframe ── */
+.preview-frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #FAF7E6;
+  box-shadow:
+    0 1px 2px rgba(14, 15, 12, 0.04),
+    0 20px 40px -12px rgba(14, 15, 12, 0.18),
+    0 40px 80px -24px rgba(14, 15, 12, 0.12),
+    inset 0 0 0 1px rgba(14, 15, 12, 0.08);
+  aspect-ratio: 16 / 10.5;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Document-shaped frame for Estrategia / Motor (tall, narrow, letter-like) */
+.preview-frame--doc {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  max-width: 520px;
+  justify-self: center;
+}
+.preview-frame:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 2px rgba(14, 15, 12, 0.04),
+    0 28px 56px -12px rgba(14, 15, 12, 0.24),
+    0 56px 96px -24px rgba(14, 15, 12, 0.16),
+    inset 0 0 0 1px rgba(14, 15, 12, 0.1);
+}
+.frame-chrome {
+  height: 36px;
+  background: #F4EFD8;
+  border-bottom: 1px solid rgba(14, 15, 12, 0.08);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+  position: relative;
+}
+.chrome-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(14, 15, 12, 0.15);
+}
+.chrome-dot:nth-child(1) { background: #D97757; }
+.chrome-dot:nth-child(2) { background: #D9B84E; }
+.chrome-dot:nth-child(3) { background: #8EA86F; }
+.chrome-url {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Geist Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: rgba(14, 15, 12, 0.45);
+  letter-spacing: 0.02em;
+  background: rgba(14, 15, 12, 0.04);
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+.frame-body {
+  position: relative;
+  height: calc(100% - 36px);
+  overflow: hidden;
+  background: #FAF7E6;
+}
+.preview-iframe {
+  /* Render the live page at DESKTOP dimensions, then scale down so the full
+     site-width composition fits inside the smaller frame. The iframe is
+     always 1600px wide (an honest desktop viewport). We scale by
+     --preview-scale, which the media queries below set based on the actual
+     frame size on screen. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1600px;
+  height: 1100px;
+  border: 0;
+  transform-origin: top left;
+  transform: scale(var(--preview-scale, 0.5));
+  pointer-events: none;
+}
+/* Document-shaped frames render a narrower, taller iframe — reads as a single
+   long document column instead of a widescreen web layout. */
+.preview-frame--doc .preview-iframe {
+  width: 1200px;
+  height: 1600px;
+  transform: scale(var(--preview-scale, 0.4));
+}
+.frame-click-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  cursor: pointer;
+  /* Transparent — just a click target over the iframe */
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 960px) {
+  .act-iii .act-inner,
+  .act-iv .act-inner,
+  .act-v .act-inner,
+  .act-vi .act-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 80px 32px;
+  }
+  .preview-frame { --preview-scale: 0.3; }
+  .preview-frame--doc { --preview-scale: 0.33; max-width: 360px; }
+}
+@media (min-width: 961px) and (max-width: 1280px) {
+  .preview-frame { --preview-scale: 0.4; }
+  .preview-frame--doc { --preview-scale: 0.38; }
+}
+@media (min-width: 1281px) and (max-width: 1600px) {
+  .preview-frame { --preview-scale: 0.5; }
+  .preview-frame--doc { --preview-scale: 0.43; }
+}
+@media (min-width: 1601px) {
+  .preview-frame { --preview-scale: 0.58; }
+  .preview-frame--doc { --preview-scale: 0.43; }
+}
+@media (min-width: 1601px) {
+  .preview-frame { --preview-scale: 0.58; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PHONE FRAME MODE — on narrow screens, the browser-chrome preview
+   feels cramped. Swap to a centered phone-shaped frame that renders
+   the live site at a true mobile viewport (390px). The iframe uses
+   its OWN mobile CSS at real mobile width → no fake scaling artifacts.
+   ───────────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .act-iii .act-inner,
+  .act-iv .act-inner,
+  .act-v .act-inner,
+  .act-vi .act-inner {
+    padding: 72px 20px;
+    gap: 40px;
+  }
+  .act-iii .preview-meta,
+  .act-iv .preview-meta,
+  .act-v .preview-meta,
+  .act-vi .preview-meta {
+    text-align: center;
+    align-items: center;
+  }
+  .act-iii .preview-meta .eyebrow,
+  .act-iv .preview-meta .eyebrow,
+  .act-v .preview-meta .eyebrow,
+  .act-vi .preview-meta .eyebrow {
+    justify-content: center;
+  }
+  .act-iii .preview-meta h2,
+  .act-iv .preview-meta h2,
+  .act-v .preview-meta h2,
+  .act-vi .preview-meta h2 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .act-iii .preview-meta .preview-lede,
+  .act-iv .preview-meta .preview-lede,
+  .act-v .preview-meta .preview-lede,
+  .act-vi .preview-meta .preview-lede {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Reshape the frame as a phone: no aspect-ratio, fixed phone proportions */
+  .preview-frame {
+    aspect-ratio: auto;
+    width: min(320px, 78vw);
+    height: calc(min(320px, 78vw) * 2.05);   /* ≈ iPhone 14 ratio 19.5:9 → 2.16 */
+    margin: 0 auto;
+    border-radius: 36px;
+    padding: 10px;
+    background: #0E0F0C;      /* bezel */
+    box-shadow:
+      0 1px 2px rgba(14, 15, 12, 0.08),
+      0 24px 48px -12px rgba(14, 15, 12, 0.32),
+      0 48px 96px -24px rgba(14, 15, 12, 0.22),
+      inset 0 0 0 1.5px rgba(250, 247, 230, 0.08);
+  }
+  .preview-frame:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Hide browser chrome; replace with a minimal notch */
+  .frame-chrome {
+    height: 26px;
+    background: transparent;
+    border-bottom: 0;
+    padding: 0;
+    justify-content: center;
+  }
+  .frame-chrome .chrome-dot { display: none; }
+  .frame-chrome .chrome-url {
+    position: static;
+    transform: none;
+    font-size: 9px;
+    background: rgba(250, 247, 230, 0.08);
+    color: rgba(250, 247, 230, 0.6);
+    padding: 3px 10px;
+  }
+
+  /* Rounded inner screen */
+  .frame-body {
+    height: calc(100% - 26px);
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  /* Rounded inner screen */
+  .frame-body {
+    height: calc(100% - 26px);
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--paper);
+    position: relative;
+  }
+
+  /* Render iframe at true mobile viewport (390px wide), then scale uniformly.
+     The phone screen inner width is (bezel_width - 20px padding).
+     We scale so 390px iframe content = that inner width.
+     A JS hook below sets --mobile-scale precisely on each .preview-frame. */
+  .preview-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 390px;
+    height: calc(390px * 2.15);   /* tall enough to cover the phone screen */
+    border: 0;
+    transform-origin: top left;
+    transform: scale(var(--mobile-scale, 0.77));
+    pointer-events: none;
+  }
+
+  /* CTA alignment */
+  .preview-cta {
+    align-self: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REDUCED MOTION — keep it accessible
+   ───────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scroll-cue { display: none; }
+  .scroll-hint-line::before { animation: none; }
+}
+
+/* ═════════════════════════════════════════════════════════════════
+   ACT VII · OUTRO — architectural construction of the mark,
+   then white → black, then the mark alone.
+   ═════════════════════════════════════════════════════════════════ */
+.act-vii {
+  background: #FFFFFF;
+  color: #0E0F0C;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 900ms cubic-bezier(0.7, 0, 0.3, 1),
+              color 900ms cubic-bezier(0.7, 0, 0.3, 1);
+}
+.act-vii.is-dark {
+  background: #0B0B0C;
+  color: #FAF7E6;
+}
+
+.outro-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The architectural mark — four bars */
+.outro-mark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 14px;
+  height: 180px;
+  filter: drop-shadow(0 6px 14px rgba(62, 12, 11, 0.18));
+  transition: filter 900ms cubic-bezier(0.7, 0, 0.3, 1);
+}
+.act-vii.is-dark .outro-mark {
+  filter: drop-shadow(0 0 28px rgba(229, 57, 53, 0.38))
+          drop-shadow(0 10px 28px rgba(229, 57, 53, 0.22));
+}
+
+.outro-mark .bar {
+  width: 18px;
+  background: linear-gradient(180deg, #E53935 0%, #8E1F1C 62%, #3E0C0B 100%);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.22),
+              inset -1px 0 0 rgba(0, 0, 0, 0.24);
+  border-radius: 1px;
+  transform-origin: bottom center;
+  opacity: 0;
+}
+/* Final heights match the wordmark monogram proportions: 62/100/84/46 */
+.outro-mark .bar-1 { height: 62%; }
+.outro-mark .bar-2 { height: 100%; }
+.outro-mark .bar-3 { height: 84%; }
+.outro-mark .bar-4 { height: 46%; }
+
+@keyframes bar-drop {
+  0%   { opacity: 0; transform: translateY(-160px) scaleY(0.2); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+@keyframes bar-drop-up {
+  0%   { opacity: 0; transform: translateY(-220px) scaleY(0.15); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+@keyframes bar-rise {
+  0%   { opacity: 0; transform: translateY(180px) scaleY(0.2); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+@keyframes bar-short {
+  0%   { opacity: 0; transform: translateY(-120px) scaleY(0.25); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+
+/* Stage 1: bars assemble (on entering viewport) */
+.act-vii.is-built .outro-mark .bar-1 {
+  animation: bar-drop 900ms cubic-bezier(0.16, 1, 0.3, 1) 0ms forwards;
+}
+.act-vii.is-built .outro-mark .bar-2 {
+  animation: bar-drop-up 900ms cubic-bezier(0.16, 1, 0.3, 1) 120ms forwards;
+}
+.act-vii.is-built .outro-mark .bar-3 {
+  animation: bar-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 240ms forwards;
+}
+.act-vii.is-built .outro-mark .bar-4 {
+  animation: bar-short 900ms cubic-bezier(0.16, 1, 0.3, 1) 360ms forwards;
+}
+
+/* Wordmark — appears after bars settle */
+.outro-wordmark {
+  font-family: var(--f-serif, 'Cormorant Garamond', Georgia, serif);
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1) 1200ms,
+              transform 1000ms cubic-bezier(0.16, 1, 0.3, 1) 1200ms,
+              color 900ms cubic-bezier(0.7, 0, 0.3, 1);
+}
+.outro-wordmark .amp {
+  font-style: italic;
+  color: #8E1F1C;
+}
+.act-vii.is-dark .outro-wordmark .amp {
+  color: #E53935;
+}
+.act-vii.is-built .outro-wordmark {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .outro-mark { height: 120px; gap: 10px; }
+  .outro-mark .bar { width: 12px; }
+  .outro-wordmark { font-size: 24px; }
+  .outro-stage { gap: 36px; }
+}

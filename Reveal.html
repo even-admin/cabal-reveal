@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cabal y Asociados — Reveal</title>
+<link rel="stylesheet" href="brand.css?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="reveal.css?v=24">
+<template id="__bundler_thumbnail" data-bg-color="#0b0b0c">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0b0b0c"/>
+    <g transform="translate(600 400)" fill="#faf7e6">
+      <rect x="-140" y="-80" width="32" height="160" rx="2"/>
+      <rect x="-76"  y="-80" width="32" height="160" rx="2"/>
+      <rect x="-12"  y="-80" width="32" height="160" rx="2"/>
+      <rect x="52"   y="-80" width="32" height="160" rx="2"/>
+    </g>
+    <g fill="#faf7e6" font-family="Georgia, serif" text-anchor="middle">
+      <text x="600" y="560" font-size="34" font-style="italic">Cabal y Asociados</text>
+      <text x="600" y="610" font-size="18" fill="#8E1F1C" letter-spacing="4">REVEAL</text>
+    </g>
+  </svg>
+</template>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     PROGRESS RAIL — 4 dots on the right, desktop only. Claret for current.
+     ═══════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════════
+     Deck chrome (header monogram + progress rail) was removed per
+     art direction: decoration, not decision. The identity shows in Act I;
+     Acts II–IV stand on their own composition.
+     ═══════════════════════════════════════════════════════════════════ -->
+
+<!-- Vertical scroll progress — right edge, claret fill grows top→bottom.
+     Adapted from landing's .scroll-progress (which ran horizontally under the nav). -->
+<div class="scroll-progress-v" aria-hidden="true"><span id="scrollBar"></span></div>
+
+<main class="reveal" id="reveal">
+
+  <!-- ═════════════════════════════════════════════════════════════════
+       ACT I · IDENTITY — the logo animation, embedded.
+       ═════════════════════════════════════════════════════════════════ -->
+  <section class="act act-i" data-act="0" data-screen-label="01 Identidad">
+    <div class="act-stage" id="logoStage">
+
+      <!-- Re-using brand.css classes for pixel-identical lockup -->
+      <div class="lockup-row" id="logoLockup">
+        <span class="monogram" id="logoMonogram" style="--m-h: 78px; --m-w: 10.5px; --m-gap: 6.4px;">
+          <i></i><i></i><i></i><i></i>
+        </span>
+        <span class="wordmark" id="logoWordmark" style="font-size: 82px; line-height: 1;">
+          <span class="w w1"><span>Cabal</span></span>
+          <span class="amp-wrap"><span class="amp">y</span></span>
+          <span class="w w2"><span>Asociados</span></span>
+        </span>
+      </div>
+
+      <!-- Scroll hint — inline variant from landing. A claret segment travels
+           down a fading gradient stroke. Fades out once the user scrolls past Act I. -->
+      <a href="#act-ii" class="scroll-hint scroll-hint-inline" id="scrollHint" aria-label="Seguir">
+        <span class="scroll-hint-text">Desplazar</span>
+        <span class="scroll-hint-line"></span>
+      </a>
+
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT II · CONCEPT — Split stage.
+       Left: anchored lockup (monogram + wordmark) — the identity.
+       Right: kinetic typography revealing the 4 principles in sequence.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-ii" data-act="1" data-screen-label="02 Concepto">
+
+    <div class="kinetic-stage" id="kineticStage">
+
+      <!-- The four words — claret serif, one at a time, center stage -->
+      <div class="k-words" id="kWords">
+        <div class="k-word" data-idx="0">
+          <span class="k-word-text">Evidencia<em>.</em></span>
+        </div>
+        <div class="k-word" data-idx="1">
+          <span class="k-word-text">Estructura<em>.</em></span>
+        </div>
+        <div class="k-word" data-idx="2">
+          <span class="k-word-text">Ejecución<em>.</em></span>
+        </div>
+        <div class="k-word" data-idx="3">
+          <span class="k-word-text">O<span class="kern-fi">f</span>icio<em>.</em></span>
+        </div>
+      </div>
+
+      <!-- Caption — fades in after the 4th word -->
+      <p class="k-caption">
+        Cuatro columnas. Cuatro principios.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT III · SYSTEM — the Design System as a live preview.
+       Frame sits center-stage. Click-to-open links out to the full page.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-iii" data-act="2" data-screen-label="03 Sistema">
+    <div class="act-inner">
+
+      <!-- Left: meta + CTA -->
+      <div class="preview-meta">
+        <div class="preview-kicker">
+          <span class="kicker-num">03</span>
+          <span class="kicker-rule"></span>
+          <span class="kicker-label">Sistema</span>
+        </div>
+        <h2 class="preview-title">
+          Construir <em>con oficio.</em>
+        </h2>
+        <p class="preview-lede">
+          Diez leyes, tokens del manual, primitivos y patrones.
+          El manual de marca, operable.
+        </p>
+        <a href="DesignSystem.html" target="_blank" rel="noopener" class="preview-cta">
+          <span class="cta-label">Abrir sistema completo</span>
+          <span class="cta-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <!-- Right: live preview frame — browser chrome + iframe of the file -->
+      <div class="preview-frame" data-href="DesignSystem.html">
+        <div class="frame-chrome">
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-url">cabal.mx/sistema</span>
+        </div>
+        <div class="frame-body">
+          <iframe
+            src="DesignSystem.html"
+            title="Cabal · Sistema de Diseño"
+            loading="lazy"
+            class="preview-iframe"
+            scrolling="no"
+          ></iframe>
+          <a href="DesignSystem.html" target="_blank" rel="noopener" class="frame-click-overlay" aria-label="Abrir sistema completo"></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT IV · PRODUCT — the Landing as a live preview.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-iv" data-act="3" data-screen-label="04 Producto">
+    <div class="act-inner">
+
+      <div class="preview-meta">
+        <div class="preview-kicker">
+          <span class="kicker-num">04</span>
+          <span class="kicker-rule"></span>
+          <span class="kicker-label">Producto</span>
+        </div>
+        <h2 class="preview-title">
+          El sitio <em>vivo.</em>
+        </h2>
+        <p class="preview-lede">
+          Landing con las leyes aplicadas. Copy, ritmo, jerarquía
+          y motion — todo desde el sistema.
+        </p>
+        <a href="Landing.html" target="_blank" rel="noopener" class="preview-cta">
+          <span class="cta-label">Abrir landing completo</span>
+          <span class="cta-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="preview-frame" data-href="Landing.html">
+        <div class="frame-chrome">
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-url">cabal.mx</span>
+        </div>
+        <div class="frame-body">
+          <iframe
+            src="Landing.html"
+            title="Cabal · Landing"
+            loading="lazy"
+            class="preview-iframe"
+            scrolling="no"
+          ></iframe>
+          <a href="Landing.html" target="_blank" rel="noopener" class="frame-click-overlay" aria-label="Abrir landing completo"></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT V · ESTRATEGIA — the strategy document.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-v" data-act="4" data-screen-label="05 Estrategia">
+    <div class="act-inner">
+
+      <div class="preview-meta">
+        <div class="preview-kicker">
+          <span class="kicker-num">05</span>
+          <span class="kicker-rule"></span>
+          <span class="kicker-label">Estrategia</span>
+        </div>
+        <h2 class="preview-title">
+          El <em>plan</em> de posicionamiento.
+        </h2>
+        <p class="preview-lede">
+          Cuatro frentes — Google Maps, sitio web, blog de autoridad
+          e inteligencia artificial. El resumen ejecutivo.
+        </p>
+        <a href="Estrategia.html" target="_blank" rel="noopener" class="preview-cta">
+          <span class="cta-label">Abrir estrategia completa</span>
+          <span class="cta-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="preview-frame preview-frame--doc" data-href="Estrategia.html">
+        <div class="frame-chrome">
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-url">cabal.mx/estrategia</span>
+        </div>
+        <div class="frame-body">
+          <iframe
+            src="Estrategia.html"
+            title="Cabal · Estrategia"
+            loading="lazy"
+            class="preview-iframe"
+            scrolling="no"
+          ></iframe>
+          <a href="Estrategia.html" target="_blank" rel="noopener" class="frame-click-overlay" aria-label="Abrir estrategia completa"></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT VI · MOTOR — the growth retainer proposal.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-vi" data-act="5" data-screen-label="06 Motor">
+    <div class="act-inner">
+
+      <div class="preview-meta">
+        <div class="preview-kicker">
+          <span class="kicker-num">06</span>
+          <span class="kicker-rule"></span>
+          <span class="kicker-label">Motor</span>
+        </div>
+        <h2 class="preview-title">
+          El <em>motor</em> de crecimiento.
+        </h2>
+        <p class="preview-lede">
+          Contenido y posicionamiento continuo. Tres frentes,
+          entregables mensuales y la inversión que lo sostiene.
+        </p>
+        <a href="Motor.html" target="_blank" rel="noopener" class="preview-cta">
+          <span class="cta-label">Abrir propuesta completa</span>
+          <span class="cta-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="preview-frame preview-frame--doc" data-href="Motor.html">
+        <div class="frame-chrome">
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-dot"></span>
+          <span class="chrome-url">cabal.mx/motor</span>
+        </div>
+        <div class="frame-body">
+          <iframe
+            src="Motor.html"
+            title="Cabal · El Motor"
+            loading="lazy"
+            class="preview-iframe"
+            scrolling="no"
+          ></iframe>
+          <a href="Motor.html" target="_blank" rel="noopener" class="frame-click-overlay" aria-label="Abrir propuesta completa"></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════
+       ACT VII · OUTRO — architectural reveal of the monogram,
+       white → black transition, the mark alone.
+       ════════════════════════════════════════════════════════════════ -->
+  <section class="act act-vii" data-act="6" data-screen-label="07 Outro">
+    <div class="outro-stage">
+      <span class="outro-mark" aria-label="Cabal y Asociados">
+        <i class="bar bar-1"></i>
+        <i class="bar bar-2"></i>
+        <i class="bar bar-3"></i>
+        <i class="bar bar-4"></i>
+      </span>
+    </div>
+  </section>
+
+</main>
+
+<script src="reveal.js?v=16"></script>
+
+</body></html>

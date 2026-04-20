@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>CABAL y Asociados — Mini Brandbook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="brand.css" />
+<script src="deck-stage.js"></script>
+<style>
+/* ═══ Brandbook outro-mark — looping architectural assembly ═══
+   Mirrors Reveal's Act VII outro animation, recoded as a pure-CSS loop
+   so the brandbook page needs no JS. 6s cycle: build → hold → fade. */
+.bb-outro-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 32px;
+  min-height: 260px;
+  background: var(--paper);
+}
+.bb-outro-mark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 10px;
+  height: 180px;
+  filter: drop-shadow(0 8px 18px rgba(62, 12, 11, 0.22));
+}
+.bb-outro-mark .bar {
+  width: 14px;
+  background: linear-gradient(180deg, #E53935 0%, #8E1F1C 62%, #3E0C0B 100%);
+  box-shadow:
+    inset 1px 0 0 rgba(255, 255, 255, 0.22),
+    inset -1px 0 0 rgba(0, 0, 0, 0.24);
+  border-radius: 1px;
+  transform-origin: bottom center;
+  opacity: 0;
+}
+.bb-outro-mark .bar-1 { height: 62%; }
+.bb-outro-mark .bar-2 { height: 100%; }
+.bb-outro-mark .bar-3 { height: 84%; }
+.bb-outro-mark .bar-4 { height: 46%; }
+
+/* 6s loop: 0-15% build (900ms), 15-78% hold (~3.8s), 78-100% fade+reset (~1.3s) */
+@keyframes bb-drop       { 0%,0%   { opacity: 0; transform: translateY(-160px) scaleY(0.2); }
+                           15%,78% { opacity: 1; transform: translateY(0) scaleY(1); }
+                           100%    { opacity: 0; transform: translateY(-160px) scaleY(0.2); } }
+@keyframes bb-drop-up    { 0%,2%   { opacity: 0; transform: translateY(-220px) scaleY(0.15); }
+                           17%,78% { opacity: 1; transform: translateY(0) scaleY(1); }
+                           100%    { opacity: 0; transform: translateY(-220px) scaleY(0.15); } }
+@keyframes bb-rise       { 0%,4%   { opacity: 0; transform: translateY(180px) scaleY(0.2); }
+                           19%,78% { opacity: 1; transform: translateY(0) scaleY(1); }
+                           100%    { opacity: 0; transform: translateY(180px) scaleY(0.2); } }
+@keyframes bb-short      { 0%,6%   { opacity: 0; transform: translateY(-120px) scaleY(0.25); }
+                           21%,78% { opacity: 1; transform: translateY(0) scaleY(1); }
+                           100%    { opacity: 0; transform: translateY(-120px) scaleY(0.25); } }
+
+.bb-outro-mark .bar-1 { animation: bb-drop    6s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.bb-outro-mark .bar-2 { animation: bb-drop-up 6s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.bb-outro-mark .bar-3 { animation: bb-rise    6s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.bb-outro-mark .bar-4 { animation: bb-short   6s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bb-outro-mark .bar { animation: none; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body style="margin:0; background:#000;">
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ═══════════════ 01 · COVER ═══════════════ -->
+  <section data-label="Cover" class="slide">
+    <div class="chrome chrome-top">
+      <span>Cabal y Asociados <span class="dot"></span> Manual de Marca</span>
+      <span>Edición 01 <span class="dot"></span> v1.0</span>
+    </div>
+
+    <div class="page" style="padding:180px 120px 110px; justify-content:space-between;">
+      <div style="display:flex; align-items:baseline; gap:28px;">
+        <span class="mono" style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">§ 01 — Portada</span>
+        <div class="rule" style="flex:1; background:var(--rule-strong);"></div>
+        <span class="mono" style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase;">Villahermosa, Tabasco · Est. 1995</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:36px; max-width: 1400px;">
+        <div class="serif" style="font-size:44px; font-style:italic; line-height:1; letter-spacing:-0.01em;">
+          Un manual de marca para una firma que
+        </div>
+        <h1 class="serif" style="margin:0; font-size:256px; line-height:0.88; letter-spacing:0.005em; font-weight:400; font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'dlig' 0, 'clig' 0, 'kern' 1;">
+          def<span style="display:inline-block; margin-left:0.04em; margin-right:0.04em;">i</span>ende<br/>
+          <span style="font-style:italic; color:var(--claret);">con of<span style="display:inline-block; margin-left:0.03em; margin-right:0.03em;">i</span>cio.</span>
+        </h1>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:28px;">
+          <div class="monogram" style="--m-h:30.4px; --m-w:4.1px; --m-gap:2.5px;">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="wordmark" style="font-size:32px;">Cabal <span class="amp">y</span> Asociados</div>
+        </div>
+        <div class="mono" style="font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2); text-align:right; line-height:1.9;">
+          EVEN Venture Studio<br/>
+          Abril 2026
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 02 · ESENCIA / POSICIONAMIENTO ═══════════════ -->
+  <section data-label="Esencia" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 02 — Esencia de marca</span>
+      <span class="page-no">02 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Cabal y Asociados</span>
+      <span>Posicionamiento</span>
+    </div>
+
+    <div class="page" style="padding:140px 120px; display:grid; grid-template-columns: 340px 1fr; gap:80px;">
+      <div>
+        <div class="section-no">nº 02</div>
+        <div style="margin-top:14px; font-family:'Instrument Serif',serif; font-size:54px; line-height:0.95; letter-spacing:-0.015em;">
+          Esencia<br/><em>de marca</em>
+        </div>
+        <div class="rule-strong" style="margin-top:40px; width:60px; background:var(--claret);"></div>
+        <div style="margin-top:28px; font-family:'Geist',sans-serif; font-weight:500; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2); line-height:2;">
+          Palabra raíz<br/>
+          <span style="color:var(--ink); letter-spacing:0.24em;">CABAL</span><br/>
+          <span style="text-transform:none; letter-spacing:0; font-family:'Instrument Serif',serif; font-style:italic; font-size:22px; color:var(--ink);">adj. exacto, íntegro, recto.</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div class="serif" style="font-size:86px; line-height:1.02; letter-spacing:-0.02em;">
+          <p style="font-weight:400; margin:0;">Conocemos el derecho laboral desde los dos lados de la&nbsp;mesa.</p>
+          <p style="color:rgb(15,12,12); margin:0.6em 0 0;">Esa amplitud es <em>nuestra ventaja.</em></p>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:0; border-top:1px solid var(--rule); padding-top:22px; margin-top:48px;">
+          <div>
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Oficio</div>
+            <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">Saber cómo opera la otra parte.</div>
+          </div>
+          <div style="padding-left:28px; border-left:1px solid var(--rule);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Rectitud</div>
+            <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">Decir lo cabal, aunque incomode.</div>
+          </div>
+          <div style="padding-left:28px; border-left:1px solid var(--rule);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Cercanía</div>
+            <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">Del WhatsApp al tribunal.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 03 · LOGO PRINCIPAL (evolución) ═══════════════ -->
+  <section data-label="Logo Principal" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 03 — Logotipo principal</span>
+      <span class="page-no">03 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>La evolución del símbolo</span>
+      <span>Primary Mark</span>
+    </div>
+
+    <div class="page" style="padding:140px 120px; display:grid; grid-template-rows: auto 1fr auto; gap:40px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-no">nº 03</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:54px; line-height:0.95; letter-spacing:-0.015em;">
+            El logotipo, <em>refinado.</em>
+          </div>
+        </div>
+        <div style="max-width:520px; font-size:17px; line-height:1.55; color:#2a2a25;">
+          Conservamos el ADN del logo original—cuatro columnas verticales que evocan los pilares de la sala, las barras de un expediente, la firmeza del oficio—y las dotamos de volumen: un <em class="serif" style="color:#8E1F1C;">rojo degradado</em> con profundidad tech-moderna. El wordmark queda en negro tinta, sobrio, sin adornos—el símbolo lleva el pulso de la marca.
+        </div>
+      </div>
+
+      <!-- Primary lockup on paper, large, horizontal -->
+      <div style="background:var(--paper); border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; padding:80px 60px;">
+        <div style="display:flex; align-items:flex-end; gap:40px;">
+          <div class="monogram" style="--m-h:106.4px; --m-w:14.2px; --m-gap:8.9px;">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="wordmark" style="font-size:112px; color:var(--ink); line-height:0.85;">Cabal <span class="amp">y</span> Asociados</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:0; border-top:1px solid var(--rule);">
+        <div style="padding:18px 20px 0; border-right:1px solid var(--rule);">
+          <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Símbolo</div>
+          <div class="serif" style="font-size:20px; font-style:italic; margin-top:4px;">Cuatro columnas</div>
+          <div style="font-size:13px; margin-top:4px; color:#4a4a44;">Los pilares del expediente.</div>
+        </div>
+        <div style="padding:18px 20px 0; border-right:1px solid var(--rule);">
+          <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Tipografía</div>
+          <div class="serif" style="font-size:20px; font-style:italic; margin-top:4px;">Serif editorial</div>
+          <div style="font-size:13px; margin-top:4px; color:#4a4a44;">Instrument Serif, 400 · italic.</div>
+        </div>
+        <div style="padding:18px 20px 0; border-right:1px solid var(--rule);">
+          <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Acento</div>
+          <div class="serif" style="font-style:italic; margin-top:4px; font-size:20px; color:#8E1F1C;">Rojo degradado · Tech</div>
+          <div style="font-size:13px; margin-top:4px; color:#4a4a44;">#B8332E → #3E0C0B, solo en el símbolo.</div>
+        </div>
+        <div style="padding:18px 20px 0;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Bajada</div>
+          <div class="serif" style="font-size:20px; font-style:italic; margin-top:4px;">Descriptor sobrio</div>
+          <div style="font-size:13px; margin-top:4px; color:#4a4a44;">Geist 500, tracked 0.22em, uppercase.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 04 · VARIACIONES DE LOGO ═══════════════ -->
+  <section data-label="Variaciones" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 04 — Variaciones del logotipo</span>
+      <span class="page-no">04 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Sistema modular</span>
+      <span>Horizontal · Ícono · Reverso</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 110px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:36px;">
+        <div>
+          <div class="section-no">nº 04</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:48px; line-height:0.95; letter-spacing:-0.015em;">
+            Un sistema, <em style="color:#8E1F1C;">tres voces.</em>
+          </div>
+        </div>
+        <div style="max-width:440px; font-size:15px; line-height:1.55; color:#2a2a25;">
+          El logo siempre va horizontal: símbolo a la izquierda, wordmark a la derecha. El ícono—solo las columnas rojas—se reserva para avatares, redes y sellos donde el nombre no cabe.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.8fr 1fr 1fr; gap:16px; height:640px;">
+
+        <!-- A · Horizontal (main lockup) -->
+        <div style="background:var(--paper); border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:32px;">
+            <div style="display:flex; align-items:center; gap:30px;">
+              <div class="monogram" style="--m-h:41.8px; --m-w:5.6px; --m-gap:3.5px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:44px; color:var(--ink);">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px; display:flex; justify-content:space-between; align-items:center;">
+            <span class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">A · Horizontal</span>
+            <span class="serif" style="font-style:italic; font-size:16px;">Uso principal</span>
+          </div>
+        </div>
+
+        <!-- B · Ícono (profile pic / avatar) -->
+        <div style="background:var(--ink); color:var(--paper); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+            <div class="monogram" style="--m-h:220px; --m-w:22px; --m-gap:14px;">
+              <i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+          <div style="border-top:1px solid rgba(243,239,230,0.18); padding:14px 18px; display:flex; justify-content:space-between; align-items:center;">
+            <span class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.7;">B · Ícono</span>
+            <span class="serif" style="font-style:italic; font-size:16px;">Avatar · redes</span>
+          </div>
+        </div>
+
+        <!-- C · Reverso (wordmark on ink) -->
+        <div style="background:var(--ink); color:var(--paper); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:32px;">
+            <div style="display:flex; align-items:center; gap:22px;">
+              <div class="monogram" style="--m-h:62px; --m-w:7px; --m-gap:4.5px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:34px; color:var(--paper); line-height:1;">Cabal <span class="amp">y</span><br/>Asociados</div>
+            </div>
+          </div>
+          <div style="border-top:1px solid rgba(243,239,230,0.18); padding:14px 18px; display:flex; justify-content:space-between; align-items:center;">
+            <span class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.7;">C · Reverso</span>
+            <span class="serif" style="font-style:italic; font-size:16px;">Fondos oscuros</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 05 · CLEAR SPACE + MINIMUM SIZE ═══════════════ -->
+  <section data-label="Clear Space" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 05 — Área de respeto y tamaño mínimo</span>
+      <span class="page-no">05 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Reglas de construcción</span>
+      <span>Clear Space · Min Size</span>
+    </div>
+
+    <div class="page" style="padding:140px 120px; display:grid; grid-template-rows: auto 1fr; gap:48px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-no">nº 05</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:48px; line-height:0.95; letter-spacing:-0.015em;">
+            Dele <em>aire</em> al logo.
+          </div>
+        </div>
+        <div style="max-width:520px; font-size:15px; line-height:1.55; color:#2a2a25;">
+          La unidad <span class="mono" style="font-size:13px;">X</span> equivale al ancho de una columna del símbolo. El área de respeto nunca es menor a <span class="mono" style="font-size:13px;">2X</span> en ningún lado. El tamaño mínimo garantiza legibilidad en pantalla y en papel.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.3fr 1fr; gap:24px;">
+        <!-- Clear space diagram -->
+        <div style="background:var(--paper-2); border:1px solid var(--rule); padding:50px; position:relative; display:flex; align-items:center; justify-content:center;">
+          <!-- Dashed clear space frame -->
+          <div style="position:relative; padding: 48px 48px;">
+            <div style="position:absolute; inset:0; border:1px dashed var(--claret); opacity:0.55;"></div>
+            <!-- X markers on the dashed frame -->
+            <div class="mono" style="position:absolute; top:-14px; left:-14px; font-size:10px; letter-spacing:0.15em; background:var(--paper-2); padding:0 4px;">2X</div>
+            <div class="mono" style="position:absolute; top:-14px; right:-14px; font-size:10px; letter-spacing:0.15em; background:var(--paper-2); padding:0 4px;">2X</div>
+            <div class="mono" style="position:absolute; bottom:-14px; left:-14px; font-size:10px; letter-spacing:0.15em; background:var(--paper-2); padding:0 4px;">2X</div>
+            <div class="mono" style="position:absolute; bottom:-14px; right:-14px; font-size:10px; letter-spacing:0.15em; background:var(--paper-2); padding:0 4px;">2X</div>
+
+            <div style="display:flex; align-items:center; gap:24px;">
+              <div class="monogram" style="--m-h:28.5px; --m-w:3.8px; --m-gap:2.4px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div>
+                <div class="wordmark" style="font-size:30px;">Cabal <span class="amp">y</span> Asociados</div>
+                
+              </div>
+            </div>
+
+            <!-- X unit reference -->
+            <div style="position:absolute; left:-80px; top:50%; transform:translateY(-50%); text-align:right; font-family:'Geist',sans-serif; font-weight:500; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">
+              <div style="width:12px; height:60px; background:var(--stone); margin-left:auto; margin-bottom:4px;"></div>
+              X = 1 columna
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimum sizes -->
+        <div style="display:grid; grid-template-rows: repeat(3, 1fr); gap:12px;">
+          <div style="background:var(--paper-2); border:1px solid var(--rule); padding:24px 28px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="monogram" style="--m-h:14.3px; --m-w:3px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div>
+                <div class="wordmark" style="font-size:15px;">Cabal <span class="amp">y</span> Asociados</div>
+                
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Digital mín.</div>
+              <div class="serif" style="font-style:italic; font-size:22px;">180 px de ancho</div>
+            </div>
+          </div>
+
+          <div style="background:var(--paper-2); border:1px solid var(--rule); padding:24px 28px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="monogram" style="--m-h:11px; --m-w:3px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div>
+                <div class="wordmark" style="font-size:11px;">Cabal <span class="amp">y</span> Asociados</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Impreso mín.</div>
+              <div class="serif" style="font-style:italic; font-size:22px;">22 mm de ancho</div>
+            </div>
+          </div>
+
+          <div style="background:var(--paper-2); border:1px solid var(--rule); padding:24px 28px; display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div class="monogram" style="--m-h:56px; --m-w:7px; --m-gap:5px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="monogram" style="--m-h:40px; --m-w:5px; --m-gap:4px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="monogram" style="--m-h:24px; --m-w:3px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2);">Ícono solo</div>
+              <div class="serif" style="font-style:italic; font-size:22px;">hasta 24 px</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 06 · TIPOGRAFÍA ═══════════════ -->
+  <section data-label="Tipografía" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 06 — Sistema tipográfico</span>
+      <span class="page-no">06 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Instrument Serif · Geist</span>
+      <span>Typography</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 100px; display:grid; grid-template-rows: auto 1fr; gap:40px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+          <div class="section-no">nº 06</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:52px; line-height:0.95; letter-spacing:-0.015em;">
+            Dos voces, <em>un tono.</em>
+          </div>
+        </div>
+        <div style="max-width:540px; font-size:15px; line-height:1.55; color:#2a2a25;">
+          Una serif editorial para el peso de la ley y los titulares con alma. Un grotesque humanista para todo lo demás: cuerpo, interfaces, números y detalles.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0; border-top:1px solid var(--rule-strong);">
+
+        <!-- Serif — hero column -->
+        <div style="padding:36px 40px 32px 0; border-right:1px solid var(--rule-strong); display:flex; flex-direction:column; gap:28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Voz 1 — Titulares</div>
+              <div class="serif" style="font-size:36px; font-style:italic; margin-top:6px; letter-spacing:-0.01em;">Instrument Serif</div>
+            </div>
+            <div class="mono" style="font-size:11px; color:var(--stone-2); text-align:right; line-height:1.8;">
+              Regular · Italic<br/>
+              Tracking −1.5%
+            </div>
+          </div>
+
+          <div class="serif" style="font-size:118px; line-height:0.9; letter-spacing:-0.025em; color:var(--ink);">
+            pelea por<br/><em>Usted.</em>
+          </div>
+
+          <div style="margin-top:auto; border-top:1px solid var(--rule); padding-top:16px; display:flex; justify-content:space-between; align-items:baseline;">
+            <span class="serif" style="font-size:22px; letter-spacing:-0.01em;">Aa Bb Cc 0123 áéíñóú ¿?</span>
+            <span class="mono" style="font-size:11px; color:var(--stone-2);">fonts.google.com</span>
+          </div>
+        </div>
+
+        <!-- Sans — two registers stacked -->
+        <div style="padding:36px 0 32px 40px; display:flex; flex-direction:column; gap:28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Voz 2 — Cuerpo &amp; detalles</div>
+              <div style="font-family:'Geist',sans-serif; font-weight:500; font-size:36px; margin-top:6px; letter-spacing:-0.01em;">Geist</div>
+            </div>
+            <div class="mono" style="font-size:11px; color:var(--stone-2); text-align:right; line-height:1.8;">
+              300 / 400 / 500<br/>
+              600 / 700
+            </div>
+          </div>
+
+          <!-- Body sample -->
+          <div style="font-family:'Geist',sans-serif; font-weight:400; font-size:21px; line-height:1.45; letter-spacing:-0.005em; color:var(--ink);">
+            Le ayudamos a recuperar lo que por ley le corresponde: salarios caídos, finiquito completo, días de descanso y prestaciones. Primera consulta gratuita por WhatsApp.
+          </div>
+
+          <!-- Micro register: same font, tracked out, uppercase. Replaces the mono. -->
+          <div style="border-top:1px solid var(--rule); padding-top:16px; display:grid; grid-template-columns: auto 1fr; gap:24px; align-items:start;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2); white-space:nowrap;">Registro<br/>micro</div>
+            <div style="font-family:'Geist',sans-serif; font-weight:500; font-size:13px; letter-spacing:0.22em; text-transform:uppercase; line-height:1.9; color:var(--ink);">
+              EXP. 2024/LAB/0317 · ART. 47 LFT<br/>
+              FOLIO · 993 312 8454 · PÁG. 01 / 04
+            </div>
+          </div>
+
+          <div style="margin-top:auto; border-top:1px solid var(--rule); padding-top:16px; display:flex; justify-content:space-between; align-items:baseline; font-family:'Geist',sans-serif;">
+            <div style="display:flex; gap:14px;">
+              <span style="font-weight:300; font-size:22px;">Aa</span>
+              <span style="font-weight:400; font-size:22px;">Aa</span>
+              <span style="font-weight:500; font-size:22px;">Aa</span>
+              <span style="font-weight:600; font-size:22px;">Aa</span>
+              <span style="font-weight:700; font-size:22px;">Aa</span>
+            </div>
+            <span style="font-size:14px; font-weight:400; color:var(--stone-2);">0123 áéíñóú ¿?¡!</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 07 · JERARQUÍA ═══════════════ -->
+  <section data-label="Jerarquía" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 07 — Jerarquía tipográfica</span>
+      <span class="page-no">07 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Escalas y aplicación en español</span>
+      <span>Type Hierarchy</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 100px; display:grid; grid-template-columns: 280px 1fr; gap:56px;">
+      <div>
+        <div class="section-no">nº 07</div>
+        <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:44px; line-height:0.95; letter-spacing:-0.015em;">
+          La escala,<br/><em>en ejemplos.</em>
+        </div>
+        <div class="rule-strong" style="margin-top:30px; width:40px; background:var(--claret);"></div>
+        <div style="margin-top:24px; font-size:14px; line-height:1.6; color:#2a2a25;">
+          Siete niveles que cubren desde un titular de campaña hasta una nota al pie. Usar uno por jerarquía—sin inventar intermedios.
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0; border-top:1px solid var(--rule);">
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">H1 · Display</div>
+          <div class="serif" style="font-size:88px; line-height:1; letter-spacing:-0.025em;">Defiéndase <em>cabal.</em></div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Serif · 88/86 · −2.5%</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">H2 · Título</div>
+          <div class="serif" style="font-size:56px; line-height:1.02; letter-spacing:-0.02em;">¿Lo despidieron sin liquidación?</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Serif · 56/58 · −2%</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">Eyebrow</div>
+          <div class="mono" style="font-size:13px; letter-spacing:0.28em; text-transform:uppercase; font-weight:500;">Derecho Laboral · Trabajadores</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Mono · 13/16 · +28%</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">Lead</div>
+          <div style="font-size:26px; line-height:1.35; font-weight:400; max-width: 900px;">Treinta años defendiendo al lado del patrón nos enseñaron cómo se arma—y se desarma—un caso laboral.</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Sans · 26/35 · 400</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">Body</div>
+          <div style="font-size:18px; line-height:1.55; font-weight:400; max-width:900px;">Si su empresa le debe salarios, aguinaldo, vacaciones o finiquito, la Ley Federal del Trabajo está de su lado. Atendemos su caso con la misma rigurosidad con la que defendimos, por décadas, a las empresas más grandes de Tabasco.</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Sans · 18/28 · 400</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; border-bottom:1px solid var(--rule); align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">Quote</div>
+          <div class="serif" style="font-size:28px; font-style:italic; line-height:1.35; max-width:900px;">"Conocemos el manual porque lo escribimos. Ahora lo usamos para que a usted no se lo apliquen en contra."</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Serif italic · 28</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 110px 1fr 140px; gap:30px; padding:16px 0; align-items:baseline;">
+          <div class="mono" style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--stone-2);">Caption</div>
+          <div class="mono" style="font-size:12px; letter-spacing:0.1em; color:var(--stone-2);">* Primera consulta sin costo. Honorarios a éxito disponibles según el caso.</div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.1em; color:var(--stone-2); text-align:right;">Mono · 12/18</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 08 · PALETA DE COLOR ═══════════════ -->
+  <section data-label="Paleta" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 08 — Paleta cromática</span>
+      <span class="page-no">08 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Tinta, papel, claret, piedra</span>
+      <span>Color System</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 100px; display:grid; grid-template-rows: auto 1fr; gap:40px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-no">nº 08</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:48px; line-height:0.95; letter-spacing:-0.015em;">
+            Tinta, papel, <em>claret.</em>
+          </div>
+        </div>
+        <div style="max-width:520px; font-size:15px; line-height:1.55; color:#2a2a25;">
+          El sistema es 80 % blanco y negro—así la marca no envejece. El negro tinta es el único acento, reservado para cifras críticas, el símbolo y el nexo tipográfico. La piedra es soporte: fondos y separadores.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1.4fr 1.4fr 1fr 1fr; gap:16px;">
+
+        <!-- Ink -->
+        <div class="swatch" style="background:var(--ink); height:560px; border:1px solid var(--rule);">
+          <div style="flex:1; padding:28px; display:flex; flex-direction:column; justify-content:space-between; color:var(--paper);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.6;">Primario · 50 %</div>
+            <div>
+              <div class="serif" style="font-size:72px; font-style:italic; line-height:0.9;">Tinta</div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.14em; margin-top:8px; opacity:0.7;">Ink / Texto principal</div>
+            </div>
+          </div>
+          <div class="swatch-meta" style="background:var(--ink); color:var(--paper); border-top:1px solid rgba(243,239,230,0.18);">
+            <span class="k" style="color:var(--paper); opacity:0.7;">HEX</span><span class="v">#0E0F0C</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">RGB</span><span class="v">14 / 15 / 12</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">CMYK</span><span class="v">70 / 60 / 70 / 85</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">Pantone</span><span class="v">Black 6 C</span>
+          </div>
+        </div>
+
+        <!-- Paper -->
+        <div class="swatch" style="background:var(--paper); height:560px; border:1px solid var(--rule);">
+          <div style="flex:1; padding:28px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Fondo · 35 %</div>
+            <div>
+              <div class="serif" style="font-size:72px; font-style:italic; line-height:0.9;">Papel</div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.14em; margin-top:8px; color:var(--stone-2);">Blanco puro / Fondo principal</div>
+            </div>
+          </div>
+          <div class="swatch-meta">
+            <span class="k">HEX</span><span class="v">#FFFFFF</span>
+            <span class="k">RGB</span><span class="v">255 / 255 / 255</span>
+            <span class="k">CMYK</span><span class="v">0 / 0 / 0 / 0</span>
+            <span class="k">Pantone</span><span class="v">White</span>
+          </div>
+        </div>
+
+        <!-- Claret -->
+        <div class="swatch" style="background:var(--claret); height:560px; border:1px solid var(--rule);">
+          <div style="flex:1; padding:24px; display:flex; flex-direction:column; justify-content:space-between; color:var(--paper);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.65;">Acento · 10 %</div>
+            <div>
+              <div class="serif" style="font-size:56px; font-style:italic; line-height:0.9;">Claret</div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.14em; margin-top:8px; opacity:0.7;">Claret / Único acento</div>
+            </div>
+          </div>
+          <div class="swatch-meta" style="background:var(--claret); color:var(--paper); border-top:1px solid rgba(243,239,230,0.18);">
+            <span class="k" style="color:var(--paper); opacity:0.7;">HEX</span><span class="v">#8E1F1C</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">RGB</span><span class="v">142 / 31 / 28</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">CMYK</span><span class="v">22 / 100 / 95 / 17</span>
+            <span class="k" style="color:var(--paper); opacity:0.7;">Pantone</span><span class="v">7623 C</span>
+          </div>
+        </div>
+
+        <!-- Stone -->
+        <div class="swatch" style="background:var(--stone); height:560px; border:1px solid var(--rule);">
+          <div style="flex:1; padding:24px; display:flex; flex-direction:column; justify-content:space-between; color:var(--ink);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#6a6656;">Soporte · 5 %</div>
+            <div>
+              <div class="serif" style="font-size:56px; font-style:italic; line-height:0.9;">Piedra</div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.14em; margin-top:8px; color:#5a5648;">Stone / Separadores</div>
+            </div>
+          </div>
+          <div class="swatch-meta">
+            <span class="k">HEX</span><span class="v">#C9C1B0</span>
+            <span class="k">RGB</span><span class="v">201 / 193 / 176</span>
+            <span class="k">CMYK</span><span class="v">20 / 18 / 30 / 4</span>
+            <span class="k">Pantone</span><span class="v">Warm Gray 3 C</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 09 · REDES SOCIALES ═══════════════ -->
+  <section data-label="Redes" class="slide dark">
+    <div class="chrome chrome-top">
+      <span>§ 09 — Aplicaciones en redes</span>
+      <span class="page-no">09 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Instagram · WhatsApp · Google</span>
+      <span>Social Applications</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 100px; display:grid; grid-template-rows: auto 1fr; gap:36px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-no">nº 09</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:48px; line-height:0.95; letter-spacing:-0.015em; color:var(--paper);">
+            La marca en <em style="color:var(--stone);">el bolsillo.</em>
+          </div>
+        </div>
+        <div style="max-width:520px; font-size:15px; line-height:1.55; color:rgba(243,239,230,0.75);">
+          El 94 % de México usa WhatsApp. La identidad tiene que funcionar a 40 px de diámetro en una lista de contactos, y escalar a un banner de campaña.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1.2fr; gap:20px; height:620px;">
+
+        <!-- Profile pic + WhatsApp row -->
+        <div style="display:flex; flex-direction:column; gap:20px;">
+          <!-- Profile avatar -->
+          <div style="background:var(--paper); border-radius:16px; padding:32px; flex:1; display:flex; flex-direction:column; gap:18px; color:var(--ink);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">A · Avatar social</div>
+            <div style="display:flex; gap:18px; align-items:center;">
+              <div style="width:120px; height:120px; border-radius:50%; background:var(--claret); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <div class="monogram flat" style="--m-h:56px; --m-w:6px; --m-gap:4px; color:var(--paper);">
+                  <i></i><i></i><i></i><i></i>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <div style="width:64px; height:64px; border-radius:50%; background:var(--claret); display:flex; align-items:center; justify-content:center;">
+                  <div class="monogram flat" style="--m-h:30px; --m-w:3px; --m-gap:2.5px; color:var(--paper);">
+                    <i></i><i></i><i></i><i></i>
+                  </div>
+                </div>
+                <div style="width:40px; height:40px; border-radius:50%; background:var(--claret); display:flex; align-items:center; justify-content:center; align-self:center;">
+                  <div class="monogram flat" style="--m-h:18px; --m-w:2px; --m-gap:1.5px; color:var(--paper);">
+                    <i></i><i></i><i></i><i></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:13px; color:#4a4a44; line-height:1.5;">
+              El ícono respira, centrado, en círculo negro tinta. Funciona desde 40&nbsp;px hasta 400&nbsp;px sin pérdida.
+            </div>
+          </div>
+
+          <!-- WhatsApp mockup -->
+          <div style="background:#0B1F17; border-radius:16px; padding:22px 24px; flex:0.9; color:var(--paper); display:flex; flex-direction:column; gap:12px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; opacity:0.5;">B · WhatsApp Business</div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:52px; height:52px; border-radius:50%; background:var(--claret); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <div class="monogram flat" style="--m-h:24px; --m-w:2.5px; --m-gap:2px; color:var(--paper);">
+                  <i></i><i></i><i></i><i></i>
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-family:'Geist',sans-serif; font-weight:600; font-size:15px;">Cabal y Asociados</div>
+                <div style="font-family:'Geist',sans-serif; font-size:12px; opacity:0.7;">en línea · responde &lt; 2 h</div>
+              </div>
+              <div style="width:8px; height:8px; border-radius:50%; background:var(--claret);"></div>
+            </div>
+            <div style="background:rgba(243,239,230,0.08); border-radius:10px; padding:12px 14px; font-size:13px; line-height:1.45; margin-top:4px;">
+              Hola. Gracias por escribir. Cuéntenos en una línea qué está pasando en su trabajo—un abogado le contesta hoy mismo.
+            </div>
+          </div>
+        </div>
+
+        <!-- Post template -->
+        <div style="background:var(--paper); border-radius:16px; overflow:hidden; color:var(--ink); display:flex; flex-direction:column;">
+          <div style="padding:18px 20px 12px;" class="mono">
+            <span style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">C · Post cuadrado · 1080²</span>
+          </div>
+          <div style="flex:1; background:var(--paper); position:relative; padding:42px; display:flex; flex-direction:column; justify-content:space-between; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); margin: 0 20px;">
+            <div class="mono" style="font-size:11px; letter-spacing:0.28em; text-transform:uppercase;">¿Sabía&nbsp;que…?</div>
+            <div class="serif" style="font-size:56px; line-height:0.98; letter-spacing:-0.02em;">
+              Si lo despiden sin causa, la ley le debe <em>tres meses de salario + 20 días por año trabajado.</em>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="monogram" style="--m-h:20px; --m-w:3px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="mono" style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--stone-2); text-align:right;">
+                Art. 48 · LFT<br/>
+                cabalyasociados.mx
+              </div>
+            </div>
+          </div>
+          <div style="padding:12px 20px 20px; font-size:13px; color:#4a4a44; line-height:1.5;">Plantilla: eyebrow · dato · monograma · cita legal.</div>
+        </div>
+
+        <!-- Signature / Motion Mark — the outro animation as a card -->
+        <div style="background:var(--paper); border-radius:16px; overflow:hidden; color:var(--ink); display:flex; flex-direction:column; position:relative;">
+          <div style="padding:18px 20px 12px;" class="mono">
+            <span style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">D · Firma en movimiento</span>
+          </div>
+
+          <!-- Animated mark stage -->
+          <div class="bb-outro-stage">
+            <span class="bb-outro-mark" aria-label="Cabal y Asociados">
+              <i class="bar bar-1"></i>
+              <i class="bar bar-2"></i>
+              <i class="bar bar-3"></i>
+              <i class="bar bar-4"></i>
+            </span>
+          </div>
+
+          <div class="rule" style="background:var(--rule); margin:0 24px;"></div>
+
+          <div style="padding:18px 24px 22px; display:flex; justify-content:space-between; align-items:baseline; gap:16px;">
+            <div>
+              <div class="serif" style="font-style:italic; font-size:18px; line-height:1.1; color:var(--ink);">La marca, a solas.</div>
+              <div style="font-size:12.5px; line-height:1.5; color:#4a4a44; margin-top:4px; max-width:320px;">62 / 100 / 84 / 46. El acorde arquitectónico del símbolo se ensambla y se sostiene.</div>
+            </div>
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2); text-align:right; white-space:nowrap;">
+              Outro · 6 s
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 10 · USOS INCORRECTOS ═══════════════ -->
+  <section data-label="Usos incorrectos" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 10 — Usos incorrectos</span>
+      <span class="page-no">10 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Lo que nunca hacemos</span>
+      <span>Misuse</span>
+    </div>
+
+    <div class="page" style="padding:120px 96px 100px; display:grid; grid-template-rows: auto 1fr; gap:36px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div class="section-no">nº 10</div>
+          <div style="margin-top:6px; font-family:'Instrument Serif',serif; font-size:48px; line-height:0.95; letter-spacing:-0.015em;">
+            Seis maneras de <em style="color:#9a2a25;">romperla.</em>
+          </div>
+        </div>
+        <div style="max-width:520px; font-size:15px; line-height:1.55; color:#2a2a25;">
+          El logo es un instrumento de precisión. Estos usos debilitan la marca, confunden al cliente y lesionan la credibilidad que tanto costó construir.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap:14px;">
+
+        <!-- 1 · Stretch -->
+        <div style="background:var(--paper-2); border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px; transform: scaleX(1.5);">
+              <div class="monogram" style="--m-h:20.9px; --m-w:3px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:22px; ">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">01 — No deformar</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Estirar o comprimir.</div>
+          </div>
+        </div>
+
+        <!-- 2 · Rotate -->
+        <div style="background:var(--paper-2); border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px; transform: rotate(-12deg);">
+              <div class="monogram" style="--m-h:23.8px; --m-w:3.2px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:25px; ">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">02 — No inclinar</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Rotar el lockup.</div>
+          </div>
+        </div>
+
+        <!-- 3 · Off-brand color -->
+        <div style="background:#ffe24a; border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px;">
+              <div class="monogram" style="--m-h:23.8px; --m-w:3.2px; --m-gap:2px; color:#d11;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:25px;  color:#d11;">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px; background:var(--paper-2);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">03 — Paleta ajena</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Colores fuera del sistema.</div>
+          </div>
+        </div>
+
+        <!-- 4 · Font swap -->
+        <div style="background:var(--paper-2); border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px;">
+              <div class="monogram" style="--m-h:70px; --m-w:8px; --m-gap:5px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div style="font-family: 'Comic Sans MS', cursive; font-weight:700; font-size:34px; ">Cabal y Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">04 — Tipografía libre</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Sustituir el wordmark.</div>
+          </div>
+        </div>
+
+        <!-- 5 · Low contrast -->
+        <div style="background:#a63a36; border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px;">
+              <div class="monogram" style="--m-h:23.8px; --m-w:3.2px; --m-gap:2px;">
+                <i></i><i></i><i></i><i></i>
+              </div>
+              <div class="wordmark" style="font-size:25px; ">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px; background:var(--paper-2);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">05 — Sin contraste</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Rojo sobre rojo.</div>
+          </div>
+        </div>
+
+        <!-- 6 · Effects -->
+        <div style="background:var(--paper-2); border:1px solid var(--rule); display:flex; flex-direction:column;">
+          <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:30px; position:relative;">
+            <div style="display:flex; align-items:center; gap:20px; filter: drop-shadow(4px 6px 0 rgba(154,42,37,0.6));">
+              <div class="monogram" style="--m-h:23.8px; --m-w:3.2px; --m-gap:2px; background:linear-gradient(135deg,#8E1F1C,#e8a83a); -webkit-background-clip: text; color: transparent;">
+                <i style="background:linear-gradient(to top,#8E1F1C,#e8a83a);"></i><i style="background:linear-gradient(to top,#8E1F1C,#e8a83a);"></i><i style="background:linear-gradient(to top,#8E1F1C,#e8a83a);"></i><i style="background:linear-gradient(to top,#8E1F1C,#e8a83a);"></i>
+              </div>
+              <div class="wordmark" style="font-size:25px;  background:linear-gradient(135deg,#8E1F1C,#e8a83a); -webkit-background-clip:text; color:transparent;">Cabal <span class="amp">y</span> Asociados</div>
+            </div>
+            <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-radius:50%; background:#9a2a25; color:var(--paper); display:flex; align-items:center; justify-content:center; font-weight:700;">×</div>
+          </div>
+          <div style="border-top:1px solid var(--rule); padding:14px 18px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#9a2a25;">06 — Efectos</div>
+            <div class="serif" style="font-style:italic; font-size:18px; margin-top:2px;">Sombras, degradados, 3D.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 11 · MANIFIESTO / TONO DE VOZ ═══════════════ -->
+  <section data-label="Tono de voz" class="slide dark">
+    <div class="chrome chrome-top">
+      <span>§ 11 — Tono de voz</span>
+      <span class="page-no">11 / 12</span>
+    </div>
+    <div class="chrome chrome-bottom">
+      <span>Cómo habla la marca</span>
+      <span>Voice</span>
+    </div>
+
+    <div class="page" style="padding:140px 120px; display:grid; grid-template-columns: 340px 1fr; gap:80px;">
+      <div>
+        <div class="section-no" style="color:var(--stone);">nº 11</div>
+        <div style="margin-top:14px; font-family:'Instrument Serif',serif; font-size:54px; line-height:0.95; letter-spacing:-0.015em; color:var(--paper);">
+          Hablamos <em style="color:var(--stone);">claro.</em>
+        </div>
+        <div class="rule-strong" style="margin-top:30px; width:60px;"></div>
+        <div style="margin-top:24px; font-size:14px; line-height:1.6; color:rgba(243,239,230,0.75);">
+          Nuestra voz es la de un abogado experimentado explicándole un caso a su sobrino: con autoridad, sin condescendencia, sin palabras huecas.
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; justify-content:space-between;">
+        <div class="serif" style="font-size:72px; line-height:1.05; letter-spacing:-0.02em; color:var(--paper);">
+          Decimos <em style="color:var(--stone);">"lo despidieron sin causa"</em>, no <em style="color:var(--stone);">"terminación unilateral del vínculo laboral".</em>
+          <br/><br/>
+          Decimos <em style="color:var(--stone);">"le deben"</em>, no <em style="color:var(--stone);">"existe un adeudo pendiente".</em>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0; border-top:1px solid rgba(243,239,230,0.18); padding-top:30px; margin-top:48px;">
+          <div style="padding-right:40px; border-right:1px solid rgba(243,239,230,0.18);">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone);">Sí somos</div>
+            <div style="font-size:18px; line-height:1.8; margin-top:10px; color:var(--paper);">
+              Directos · Rigurosos · Cercanos<br/>
+              Específicos · Empáticos · Puntuales
+            </div>
+          </div>
+          <div style="padding-left:40px;">
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:#d98a85;">No somos</div>
+            <div style="font-size:18px; line-height:1.8; margin-top:10px; color:rgba(243,239,230,0.7);">
+              Grandilocuentes · Vagos · Paternalistas<br/>
+              Alarmistas · Burocráticos · Genéricos
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ 12 · CIERRE / CRÉDITOS ═══════════════ -->
+  <section data-label="Cierre" class="slide">
+    <div class="chrome chrome-top">
+      <span>§ 12 — Colofón</span>
+      <span class="page-no">12 / 12</span>
+    </div>
+
+    <div class="page" style="padding:180px 120px 110px; justify-content:space-between;">
+      <div style="display:flex; align-items:baseline; gap:28px;">
+        <span class="mono" style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">§ 12 — Fin del documento</span>
+        <div class="rule" style="flex:1; background:var(--rule-strong);"></div>
+        <span class="mono" style="font-size:12px; letter-spacing:0.22em; text-transform:uppercase;">Gracias.</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:28px; max-width:1500px;">
+        <div class="serif" style="font-size:36px; font-style:italic; letter-spacing:-0.01em;">
+          Un manual es un inicio, no un cierre.
+        </div>
+        <h1 class="serif" style="margin:0; font-size:168px; line-height:0.9; letter-spacing:-0.03em; font-weight:400;">
+          
+        </h1>
+        <div style="font-size:20px; line-height:1.5; max-width:900px; color:#2a2a25; margin-top:12px;">
+          Esta identidad evoluciona. Cada aplicación que encontramos afina las reglas. Para dudas, nuevas piezas o casos especiales: escríbanos.
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0; border-top:1px solid var(--rule-strong); padding-top:28px;">
+        <div>
+          <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Cliente</div>
+          <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">Cabal y Asociados, Bufete Jurídico</div>
+          <div class="mono" style="font-size:11px; letter-spacing:0.1em; margin-top:10px; color:#4a4a44; line-height:1.8;">
+            Pedro C. Colorado 462, Centro<br/>
+            86000 · Villahermosa, Tabasco<br/>
+            993 312 8454
+          </div>
+        </div>
+        <div style="padding-left:40px; border-left:1px solid var(--rule);">
+          <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Estudio</div>
+          <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">EVEN Venture Studio</div>
+          <div class="mono" style="font-size:11px; letter-spacing:0.1em; margin-top:10px; color:#4a4a44; line-height:1.8;">
+            Estrategia, identidad &amp; sistema<br/>
+            Abril 2026<br/>
+            evenventurestudio.com
+          </div>
+        </div>
+        <div style="padding-left:40px; border-left:1px solid var(--rule); display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="mono" style="font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--stone-2);">Documento</div>
+            <div class="serif" style="font-size:22px; font-style:italic; margin-top:6px;">Manual de marca, v1.0</div>
+            <div class="mono" style="font-size:11px; letter-spacing:0.1em; margin-top:10px; color:#4a4a44; line-height:1.8;">
+              12 páginas · 1920 × 1080<br/>
+              © 2026 Cabal y Asociados<br/>
+              Todos los derechos reservados
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:20px;">
+            <div class="monogram" style="--m-h:16.2px; --m-w:3px; --m-gap:2px;">
+              <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="wordmark" style="font-size:17px;">Cabal <span class="amp">y</span> Asociados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<!-- ══════════════════════ TWEAKS ══════════════════════ -->
+<div id="tweaks">
+  <h4>Tweaks</h4>
+  <div class="group">
+    <label>Accent color</label>
+    <div class="opts" id="opt-accent">
+      <div class="opt active" data-val="#8E1F1C"><span class="sw" style="background:#8E1F1C"></span>Claret</div>
+      <div class="opt" data-val="#1C2E46"><span class="sw" style="background:#1C2E46"></span>Tinta azul</div>
+      <div class="opt" data-val="#8B6F3E"><span class="sw" style="background:#8B6F3E"></span>Latón</div>
+      <div class="opt" data-val="#0E0F0C"><span class="sw" style="background:#0E0F0C"></span>Monocromo</div>
+    </div>
+  </div>
+  <div class="group">
+    <label>Paper tone</label>
+    <div class="opts" id="opt-paper">
+      <div class="opt active" data-val="#FFFFFF"><span class="sw" style="background:#FFFFFF; border:1px solid #ddd"></span>Blanco</div>
+      <div class="opt" data-val="#F3EFE6"><span class="sw" style="background:#F3EFE6"></span>Ivory</div>
+      <div class="opt" data-val="#EFE8D6"><span class="sw" style="background:#EFE8D6"></span>Vellum</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accent": "#8E1F1C",
+    "paper": "#FFFFFF"
+  }/*EDITMODE-END*/;
+
+  const state = { ...TWEAK_DEFAULTS };
+  const panel = document.getElementById('tweaks');
+
+  function apply() {
+    document.documentElement.style.setProperty('--claret', state.accent);
+    document.documentElement.style.setProperty('--paper', state.paper);
+    // Re-derive paper-2 slightly darker
+    const p2 = state.paper === '#FFFFFF' ? '#F5F1E8' :
+               state.paper === '#EFE8D6' ? '#E6DEC6' : '#EBE5D6';
+    document.documentElement.style.setProperty('--paper-2', p2);
+  }
+
+  function wire(groupId, key) {
+    const g = document.getElementById(groupId);
+    g.querySelectorAll('.opt').forEach(el => {
+      el.addEventListener('click', () => {
+        g.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+        el.classList.add('active');
+        state[key] = el.dataset.val;
+        apply();
+        try {
+          window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: state[key] } }, '*');
+        } catch(e) {}
+      });
+    });
+    // Set initial active from defaults
+    g.querySelectorAll('.opt').forEach(o => {
+      if (o.dataset.val === state[key]) {
+        g.querySelectorAll('.opt').forEach(x => x.classList.remove('active'));
+        o.classList.add('active');
+      }
+    });
+  }
+
+  wire('opt-accent', 'accent');
+  wire('opt-paper', 'paper');
+  apply();
+
+  // Tweaks host protocol — listener FIRST, then announce.
+  window.addEventListener('message', (e) => {
+    const m = e.data;
+    if (!m || typeof m !== 'object') return;
+    if (m.type === '__activate_edit_mode') panel.classList.add('open');
+    if (m.type === '__deactivate_edit_mode') panel.classList.remove('open');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+</script>
+</body>
+</html>
