@@ -27,6 +27,7 @@
     'Acto IV · Producto',
     'Acto V · Estrategia',
     'Acto VI · Motor',
+    'Acto VII · Brandbook',
   ];
 
   // ─── ACT I · LOGO ANIMATION ────────────────────────────────────────

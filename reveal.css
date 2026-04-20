@@ -302,7 +302,7 @@ body {
 /* ─────────────────────────────────────────────────────────────────
    ACTS II–IV — shared shell
    ───────────────────────────────────────────────────────────────── */
-.act-ii, .act-iii, .act-iv, .act-v, .act-vi {
+.act-ii, .act-iii, .act-iv, .act-v, .act-vi, .act-vii-brand {
   background: #FFFFFF;
   color: #0E0F0C;
   padding: 80px 40px;
@@ -338,7 +338,7 @@ body {
 }
 
 @media (max-width: 720px) {
-  .act-ii, .act-iii, .act-iv, .act-v, .act-vi { padding: 60px 24px; }
+  .act-ii, .act-iii, .act-iv, .act-v, .act-vi, .act-vii-brand { padding: 60px 24px; }
   .eyebrow { font-size: 10px; letter-spacing: 0.2em; margin-bottom: 48px; gap: 14px; }
   .eyebrow-rule { flex-basis: 40px; }
 
@@ -637,7 +637,8 @@ body {
 .act-iii .act-inner,
 .act-iv .act-inner,
 .act-v .act-inner,
-.act-vi .act-inner {
+.act-vi .act-inner,
+.act-vii-brand .act-inner {
   display: grid;
   grid-template-columns: minmax(280px, 420px) 1fr;
   gap: 88px;
@@ -826,7 +827,8 @@ body {
   .act-iii .act-inner,
   .act-iv .act-inner,
   .act-v .act-inner,
-  .act-vi .act-inner {
+  .act-vi .act-inner,
+  .act-vii-brand .act-inner {
     grid-template-columns: 1fr;
     gap: 48px;
     padding: 80px 32px;
@@ -860,7 +862,8 @@ body {
   .act-iii .act-inner,
   .act-iv .act-inner,
   .act-v .act-inner,
-  .act-vi .act-inner {
+  .act-vi .act-inner,
+  .act-vii-brand .act-inner {
     padding: 72px 20px;
     gap: 40px;
   }
@@ -1139,56 +1142,59 @@ body {
   }
   .k-caption { font-size: 13px; padding: 0 20px; }
 
-  /* ── Acts III–VI · Preview frames — fit every act into 100dvh ── */
-  .act-iii, .act-iv, .act-v, .act-vi {
+  /* ── Acts III–VII · Preview frames — iframe-first on mobile.
+     Hide the big title + lede; show only the kicker and a compact CTA.
+     preview-meta uses display:contents so its children participate in
+     the parent grid (kicker→row 1, cta→row 3, frame stays row 2). ─ */
+  .act-iii, .act-iv, .act-v, .act-vi, .act-vii-brand {
     padding: 0;
   }
   .act-iii .act-inner,
   .act-iv .act-inner,
   .act-v .act-inner,
-  .act-vi .act-inner {
+  .act-vi .act-inner,
+  .act-vii-brand .act-inner {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    gap: 18px;
-    padding: 44px 20px 32px;
+    grid-template-rows: auto 1fr auto;
+    gap: 14px;
+    padding: 36px 20px 28px;
     max-height: 100dvh;
     height: 100%;
     align-content: stretch;
     align-items: stretch;
   }
 
+  /* preview-meta dissolves on mobile — its children participate in the
+     parent grid so we can place them independently of the frame. */
   .preview-meta {
-    gap: 10px;
-    max-width: 100%;
-    align-items: center;
-    text-align: center;
+    display: contents;
   }
   .preview-kicker {
-    font-size: 9px;
-    letter-spacing: 0.2em;
+    grid-row: 1;
+    justify-self: center;
+    font-size: 10px;
+    letter-spacing: 0.22em;
     gap: 10px;
     justify-content: center;
   }
   .preview-kicker .kicker-rule { flex: 0 0 28px; }
-  .preview-title {
-    font-size: 30px !important;
-    line-height: 1.05;
-    max-width: 22ch;
-    margin: 0 auto;
-  }
-  .preview-lede {
-    font-size: 14px !important;
-    line-height: 1.45;
-    max-width: 32ch;
-    margin: 0 auto;
-  }
+  .preview-title { display: none; }
+  .preview-lede { display: none; }
   .preview-cta {
-    font-size: 12px;
-    padding: 10px 0;
-    margin-top: 2px;
+    grid-row: 3;
+    justify-self: center;
     align-self: center;
+    font-size: 12px;
+    padding: 0;
+    border: 0;
+    letter-spacing: 0.04em;
+    gap: 10px;
   }
-  .preview-cta .cta-arrow { font-size: 16px; }
+  .preview-cta .cta-label {
+    border-bottom: 1px solid rgba(14, 15, 12, 0.2);
+    padding-bottom: 3px;
+  }
+  .preview-cta .cta-arrow { font-size: 14px; }
 
   /* Phone-frame preview — size from the row it's placed in so it never
      pushes the act past the viewport. width is capped; height is driven
@@ -1240,7 +1246,8 @@ body {
   .act-iii .act-inner,
   .act-iv .act-inner,
   .act-v .act-inner,
-  .act-vi .act-inner {
+  .act-vi .act-inner,
+  .act-vii-brand .act-inner {
     padding: 32px 20px 24px;
     gap: 12px;
   }
