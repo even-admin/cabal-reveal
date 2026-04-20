@@ -282,8 +282,8 @@
         frame.style.setProperty('--mobile-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--preview-scale');
       } else {
-        // Desktop: iframe at 1600 web/deck / 1200 doc. Scale to frame width.
-        const iframeW = isDoc ? 1200 : 1600;
+        // Desktop: iframe at 1920 deck / 1200 doc / 1600 web. Scale to frame width.
+        const iframeW = isDeck ? 1920 : isDoc ? 1200 : 1600;
         frame.style.setProperty('--preview-scale', (w / iframeW).toFixed(4));
         frame.style.removeProperty('--mobile-scale');
       }

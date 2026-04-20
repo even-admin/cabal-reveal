@@ -745,6 +745,11 @@ body {
   max-width: 520px;
   justify-self: center;
 }
+/* Deck-shaped frame for Brandbook — matches the 16:9 deck-stage canvas,
+   no letterbox bars. */
+.preview-frame--deck {
+  aspect-ratio: 16 / 9;
+}
 .preview-frame:hover {
   transform: translateY(-2px);
   box-shadow:
@@ -811,6 +816,13 @@ body {
 .preview-frame--doc .preview-iframe {
   width: 1200px;
   height: 1600px;
+  transform: scale(var(--preview-scale, 0.4));
+}
+/* Deck-shaped iframe — exact 16:9 (1920×1080) to match the deck-stage
+   canvas so slides fill the frame edge to edge. */
+.preview-frame--deck .preview-iframe {
+  width: 1920px;
+  height: 1080px;
   transform: scale(var(--preview-scale, 0.4));
 }
 .frame-click-overlay {
